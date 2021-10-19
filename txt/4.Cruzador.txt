@@ -1,0 +1,34 @@
+Cruzador 
+Habilidade Ofensiva: 
+1 -  Canhão naval de 406mm.
+     1.1 Definição
+	Sendo a primeira linha em combate naval, o Cruzador está equipado com quatro canhões de 406mm.
+
+     1.2 Funcionamento
+	Dispostos em duas torres ao longo da embarcação, os canhões atuam em duplas, sendo necessário a distinção entre as torres A(Alpha) e B(Bravo).
+
+     1.3 Aplicação
+	O turno do Cruzador é dividido em duas ações: primeiro a ação da torre A, seguido da ação da torre B. Cada torre atua de forma independente, e por ter dois canhões, cada uma realiza dois disparos, devendo a coordenada do primeiro disparo ser adjacente a do segundo.
+
+	Uma vez que a torre A disparou com seus dois canhões, a torre B atua da mesma forma.
+
+     1.4 Dificuldade
+	As coordenadas em que a torre B disparar, não podem ser adjacentes às coordenadas em que disparou a torre A.
+
+Habilidade Especial:
+
+1 - Canhão Antiaéreo de 40mm
+     1.1 Definição
+	Como medida defensiva, o Cruzador está equipado com dois canhões antiaéreos de 40mm, um em cada extremidade do navio.
+
+     1.2 Funcionamento
+	Cada canhão possui 30% de chance de abater aviões inimigos, e 20% de chance de abater aviões antes de efetuarem disparos. Após ser atingido em uma de suas extremidades(popa ou proa), o Cruzador perderá o canhão anti aéreo correspondente.
+
+     1.3 Dificuldade
+	(Com dois canhões antiaéreos)
+	5 - Com disparos inimigos.
+	7 - Sem disparos inimigos.
+
+	(Com um canhão antiaéreo) 
+	8 - Com disparos inimigos.
+	9 - Sem disparos inimigos.

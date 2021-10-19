@@ -1,0 +1,372 @@
+@charset "UtF-8";
+@font-face {
+    font-family: diploma;
+    src: url(Diploma\ Regular.ttf) format(truetype);
+}
+
+:root {
+    --amarelo: #ffc90e;
+    --amareloclaro: #fff05f;
+    --azul: #19218f;
+    --azulclaro: #355ebc;
+    --azulclarisimo: #7094e7;
+}
+
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+#caixa {
+    list-style-type: none;
+    padding: 10px 0px;
+    
+    border-top: 5px solid var(--azul);
+    background-image: linear-gradient(90deg, var(--amareloclaro), #ffef5fc2);
+    box-shadow: inset 0px 0px 3px 0px rgba(0, 0, 0, 0.473);
+    
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+#caixa.pequena, #caixa.via {
+    max-width: max-content;
+}
+
+#caixa.via > li, #caixa.pequena > li {
+    padding: 1px 10px;
+}
+.via > li:hover {
+    background-image: linear-gradient(130deg, var(--azulclarisimo), rgba(255, 255, 255, 0));
+}
+.via > li:active {
+    background-color: var(--azul);
+}
+
+li {
+    padding: 5px 10px 5px 10px;
+}
+
+.tarja {
+    margin: 15px 0px;
+    padding: 5px;
+
+    background-color: var(--azul);
+    box-shadow: inset 0px 0px 3px 0px rgba(0, 0, 0, 0.473);
+    color: rgb(230, 230, 230);
+
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+a.li_link {
+    color: black;
+    text-decoration: none;
+}
+
+a.link {
+    font-weight: bold;
+    color: var(--azul);
+}
+
+a.link:hover {
+    text-decoration: underline;
+}
+
+a.link:active {
+    color: var(--amarelo);
+}
+
+body {
+    background-color: rgb(214, 214, 214);
+}
+
+header {
+    padding: 10px 0px 20px 10px;
+    background-color: black;
+}
+
+header h1 {
+    color: var(--amarelo);
+    font: normal 4em 'diploma';
+    text-indent: 60px;
+}
+
+header img {
+    position: absolute;
+}
+
+nav {
+    background-color: black;
+    height: 35px;
+    border-bottom: 3px solid var(--azul);
+}
+
+#nav-menu {
+    position: absolute;
+    top: 144px;
+    background-image: linear-gradient(180deg, var(--amarelo), var(--amareloclaro));
+    box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.438);
+    border-bottom: 3px solid var(--azul);
+    border-right: 2px solid var(--azul);
+
+    font: normal 1.2em 'georgia';
+} 
+
+div#botão-menu {
+    display: inline;
+    margin: 0px 10px;
+    padding: 3px 15px;
+    border-radius: 20px;
+
+    color: rgb(230, 230, 230);
+    font: normal 1.4em 'georgia';
+}
+
+div#botão-menu:hover {
+    transition-duration: 0.2s;
+    background-color: rgb(43, 43, 43);
+    
+}
+
+div#botão-menu:active {
+    box-shadow: inset 1px 1px 2px 1px rgb(119, 119, 119);
+}
+
+nav .menu {
+    list-style-type: none;
+    padding: 5px 10px;   
+}
+
+nav .menu:hover {
+    transition-duration: 0.2s;
+    background-image: linear-gradient(90deg, var(--azulclaro), var(--azulclarisimo));
+}
+
+nav a {
+    display: block;
+    padding: 5px;
+    text-decoration: none;
+    color: black;
+}
+
+.menu:hover > a {
+    padding-left: 6px;
+    padding-right: 4px;
+}
+
+nav .menu:active {
+    box-shadow: inset 1px 1px 5px 1px rgb(0, 0, 0);
+}
+
+main {
+    max-width: 1000px;
+    min-height: 524px;
+    margin: 0px auto;
+    padding: 20px;
+
+    background-color: white;
+    box-shadow: 0px 1px 11px 4px #00000030;;
+
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: justify;
+}
+
+main > h1 {
+    font-family: 'Times New Roman', Times, serif;
+    color: var(--azul);
+}
+
+p {
+    margin: 10px 0px;
+}
+
+section#caixa-de-abilidades {
+    margin: 0px 20px;
+    
+    color: rgb(0, 0, 0);
+    background-image: linear-gradient(180deg, var(--amarelo), var(--amareloclaro));
+    box-shadow: inset 0px 3px 3px 0px rgba(0, 0, 0, 0.158);
+    font: normal 1.2em georgia;
+}
+
+section#caixa-de-abilidades > ul a {
+    color: black;
+    text-decoration: none;
+}
+
+section#caixa-de-abilidades > h3 a {
+    color: white;
+    text-decoration: none;
+}
+
+section#caixa-de-abilidades > h3 {
+    margin: 0px 0px;
+    padding: 10px;
+    background-color: var(--azul);
+    color: rgb(230, 230, 230);
+    text-indent: 20px;
+}
+
+section#caixa-de-abilidades > h3:active {
+    box-shadow: inset 1px 1px 1px 1px black;
+    transition-duration: 0.1s;
+}
+
+li.escolha {
+    list-style-type: none;
+}
+
+li.escolha02 {
+    padding: 1px 5px;
+    margin-left: 0px;
+    list-style-type: none;
+    font-weight: normal;
+    background-image: linear-gradient(90deg, var(--azulclarisimo)1%, white);
+}
+
+.close {
+    display: none;
+}
+
+ul#lista1 ul {
+    padding: 2px 0px;
+    border-top: 3px solid var(--azul);
+    border-bottom: 3px solid var(--azul);
+    background-color: white;
+}
+
+li.escolha:hover {
+    background-image: linear-gradient(90deg, var(--azulclarisimo), transparent);
+    padding-left: 11px;
+}
+
+li.escolha02:hover {
+    background-image: linear-gradient(90deg, var(--azulclaro), white);
+    padding-left: 6px;
+}
+
+.resultado-númerico {
+    display: inline-block;
+    margin: 0px 30px;
+    padding: 5px 10px;
+    border-bottom: 1px solid black;
+    font: normal 1.3em 'georgia';
+}
+
+.resultado {
+    margin: 10px 30px;
+    padding: 0px 10px;
+    font: normal 1.3em 'georgia';
+}
+
+.tabuleiro{ 
+    display: inline-block;
+    max-width: max-content;
+}
+
+#impresor {
+    display: inline-block;
+    border: 1px dotted black;
+}
+
+.fileira {
+    display: inline-block;
+    height: 22px;
+    width: 22px;
+
+    border: 3px double white;
+    background-color: white;
+    font: bold 1.3em 'geogia';
+    text-align: center;
+}
+
+.letras {
+    position: relative;
+    bottom: 9px;
+    display: inline-block;
+    height: 22px;
+    width: 22px;
+
+    border: 3px double white;
+    background-color: white;
+    font: bold 1.3em 'geogia';
+    text-align: center;
+}
+
+.cbox { /*cbox = box da coordenada*/
+    display: inline-block;
+    height: 22px;
+    width: 22px;
+
+    border: 3px double black;
+    background-color: white;
+    text-align: center;
+
+}
+
+.cbox:hover {
+    background-color: var(--amarelo);
+    border: 3px groove var(--azul);
+}
+
+.caixa-de-registro {
+    display: inline-block;
+    border: 3px groove var(--azul);
+    box-shadow: 1px 2px 4px 1px #0000004f;
+    background-color: var(--azul);
+}
+
+.caixa-de-registro p.first {
+    margin: 0px;
+    padding: 2px 10px 2px 10px;
+    color: white;
+
+    font: bold 1.3em 'Georgia';
+}
+
+#registro {
+    max-width: 430px;
+    min-width: 250px;
+    border-radius: 0px;
+    border: 3px solid var(--azulclaro);
+    overflow-y: visible; 
+    background-color: var(--azulclarisimo);
+}
+
+#registro option {
+    padding: 2px 10px;
+    font: bold 1.3em 'Georgia';
+}
+
+#registro option.normal, option.extenso{
+    color: white;
+}
+
+.caixa-de-registro option.titulo {
+    color: black;
+    background-color: var(--amareloclaro);
+}
+
+#registro > option.destaque {
+    color: white;
+    background-color: var(--azulclaro);
+}
+
+article {
+    margin: 0px 20px;
+}
+
+h2 {
+    margin: 20px 0px;
+    border-bottom: 1px solid rgb(143, 143, 143);
+    font-family: 'Times New Roman', Times, serif;
+}
+
+footer {
+    background-color: var(--azulclarisimo);
+}
+
+/*=======================================================|teste|=======================================================*/
+
+.menu-teste {
+    display: none;
+}

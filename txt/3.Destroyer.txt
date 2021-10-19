@@ -1,0 +1,23 @@
+Destroyer 
+
+Habilidade Ofensiva: 
+
+1 - Lança-foguetes
+     1.1 Definição
+	O poder bélico do Destroyer está em seu lança-foguetes equipado com mísseis Ex-Wife de longo alcance.
+
+     1.2 Aplicação
+	Com sua plataforma para dois foguetes, o Destroyer é capaz de efetuar dois lançamentos simultâneos, podendo atacar até duas coordenadas durante o mesmo turno, ou repetir um ataque frustrado por sistemas de defesa antimísseis.
+
+Habilidade Especial: 
+
+1 - Sistema de defesa antimísseis.
+     1.1 Definição
+	O Destroyer está preparado para defender qualquer navio da frota contra ataques de mísseis.
+
+     1.2 Dificuldade
+	Seu sistema de defesa é automático, mas que pode ser sobrecarregado por ataques de alta densidade, tornando difícil neutralizar mais de um foguete no mesmo turno.
+	
+	Dificuldades: 
+	7 - Um foguete
+	9 - Dois foguetes 

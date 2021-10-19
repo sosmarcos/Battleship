@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../imagens/BS.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../style.css">
+    <title>Cruzador</title>
+</head>
+<body>
+    <header>
+        <img src="../imagens/BS_logo_61px.png" alt="Logotipo">
+        <h1>BattleShip</h1>
+    </header>
+    <nav>
+        <div id="botão-menu" onclick="abrir('botão-menu', 'nav-menu', false, false)">
+            Menu
+        </div>
+        <ul id="nav-menu" style="display: none;">
+            <li class="menu"><a href="../index.html" target="_self" rel="next">Home</a></li>
+            <li class="menu"><a href="regra.html" target="_self" rel="next">Regras</a></li>
+            <div>
+                <li class="menu"><a href="bote_de_patrulha.html" target="_self" rel="next">Bote de patrulha</a></li>
+                <li class="menu"><a href="submarino.html" target="_self" rel="next">Submarino</a></li>
+                <li class="menu"><a href="destroyer.html" target="_self" rel="next"><em>Destroyer</em></a></li>
+                <li class="menu"><a href="porta_avioes.html" target="_self" rel="next">Porta avioes</a></li>
+            </div>
+            <li class="menu"><a href="../jogos.html" target="_self" rel="next">Jogos</a></li>
+        </ul>
+    </nav>
+    <main>
+        <h1>Cruzador</h1>
+        <article>
+            <h2>Habilidade Ofensiva:</h2>            
+            <h3 class="tarja">Canhão naval de 406mm</h3>            
+            <p>Sendo a primeira linha em combate naval, o Cruzador está equipado com quatro canhões de 406mm. Dispostos em duas torres ao longo da embarcação, os canhões atuam em duplas, sendo necessário a distinção entre as torres A (Alpha) e B (Bravo).</p>
+            <p>O turno do Cruzador é dividido em duas ações: primeiro a ação da torre A, seguido da ação da torre B. Cada torre atua de forma independente, e por ter dois canhões, cada uma realiza dois disparos, devendo a coordenada do primeiro disparo ser adjacente a do segundo.</p>
+            <p>Uma vez que a torre A disparou com seus dois canhões, a torre B atua da mesma forma, porém, as coordenadas em que a torre B disparar, não podem ser adjacentes às coordenadas em que disparou a torre A.</p>
+        </article>
+        <article>
+            <h2>Habilidade Especial:</h2>
+            <h3 class="tarja">Canhão Antiaéreo de 40mm</h3>
+            <p>Como medida defensiva, o Cruzador está equipado com dois canhões antiaéreos de 40mm, um em cada extremidade do navio. Cada canhão possui 30% de chance de abater aviões inimigos, e 20% de chance de abater aviões antes de efetuarem disparos. Após ser atingido em uma de suas extremidades (popa ou proa), o Cruzador perderá o canhão antiaéreo correspondente.</p>
+            <ul id="caixa" class="pequena">
+                <li class="tarja">Dificuldades:</li>
+                <li><strong>(Com dois canhões antiaéreos)</strong></li>
+                <li>5 - Com disparos inimigos.</li>
+                <li>7 - Sem disparos inimigos.</li>
+                <li style="margin-top: 10px;"><strong>(Com um canhão antiaéreo)</strong></li>
+                <li>8 - Com disparos inimigos.</li>
+                <li>9 - Sem disparos inimigos.</li>
+            </ul>
+        </article>
+    </main>
+    <footer>
+
+    </footer>
+    <script src="../script.js"></script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+Bote de Patrulha
+
+Habilidade Ofensiva:
+
+Canhão naval de 127mm.
+
+	Por ser uma pequena embarcação focada em inteligência, o Bote de patrulha possui um único canhão de 127mm, com capacidade para atingir qualquer local do mapa inimigo.
+
+Habilidades Especiais:
+
+Reconhecimento.
+
+	O reconhecimento é uma habilidade que permite ao bote, descobrir gradualmente a localização dos navios adversários. Aplicando-se ao mapa de forma ampla, o reconhecimento possui um caráter nebuloso, sendo eficaz para o jogador que o utiliza, sem revelar por completo as embarcações adversárias. 
+	Por sua ampla ação sobre o mapa adversário, o reconhecimento se aplica aos quadrantes, e não as coordenadas, sendo os quadrantes: Alpha, Beta, Gamma e Delta. Selecionado o quadrante, o reconhecimento afetará todas as embarcações presentes, e que estejam sujeitas a aplicação segundo sua dificuldade, devendo ser contadas somente as aplicações efetivas sobre cada embarcação. 
+	Uma vez que o reconhecimento teve êxito sobre uma embarcação, ela terá um efeito diferente a cada aplicação bem sucedida, sendo eles:
+
+. Primeiro êxito: Revelar a presença da embarcação no quadrante selecionado.
+. Segundo êxito: Revelar exatamente a classe da embarcação.
+. Demais êxitos: Revelar uma coordenada da embarcação, seguindo a ordem alfanumérica.
+
+	Esta habilidade necessita de uma rodada de espera para ser utilizada, não podendo ser usada duas rodadas consecutivas. Por ter seu efeito contabilizado individualmente para cada embarcação, o reconhecimento alcança a cada uma delas com dificuldades diferentes. Assim sendo, um jogador poderia estar contabilizando o quinto êxito sobre um Porta Aviões(dificuldade 3), sem necessariamente ter havido nenhum êxito sobre um Submarino(dificuldade 10) que se encontra no mesmo quadrante.
+
+Dificuldades:
+3 - Porta Aviões.
+5 - Cruzador.
+7 - Destroyer.
+9 - Bote de Patrulha.
+10 - Submarino.
+
+Sabotagem.
+
+	A sabotagem permite ao bote desativar a habilidade especial de qualquer embarcação inimiga. Havendo êxito, a habilidade especial do alvo é desativada por uma rodada. No caso de acerto crítico, a sabotagem é efetiva por 2 rodadas, e no caso de erro crítico, o bote de patrulha não poderá sabotar na próxima rodada. 	Para usar a sabotagem, basta escolher uma embarcação como alvo, e aplicar a dificuldade.
+
+Dificuldades:
+1 - Erro Crítico.
+5 - Cruzador(Um canhão antiaéreo).
+6 - Destroyer.
+7 - Porta Aviões e Cruzador(Dois canhões antiaéreos).
+8 - Submarino.
+9 - Bote de Patrulha.
+10 - Acerto Crítico.

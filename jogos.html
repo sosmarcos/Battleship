@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="imagens/BS.ico" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    <title>Jogos</title>
+</head>
+<body>
+    <header>
+        <img src="imagens/BS_logo_61px.png" alt="Logotipo">
+        <h1>BattleShip</h1>
+    </header>
+    <nav>
+        <div id="botão-menu" onclick="abrir('botão-menu', 'nav-menu', false, false)">
+            Menu
+        </div>
+        <ul id="nav-menu" style="display: none;">
+            <li class="menu"><a href="index.html" target="_self" rel="next">Home</a></li>
+            <li class="menu"><a href="regra/regra.html" target="_self" rel="next">Regras</a></li>
+            <div>
+                <li class="menu"><a href="regra/bote_de_patrulha.html" target="_self" rel="next">Bote de patrulha</a></li>
+                <li class="menu"><a href="regra/submarino.html" target="_self" rel="next">Submarino</a></li>
+                <li class="menu"><a href="regra/destroyer.html" target="_self" rel="next"><em>Destroyer</em></a></li>
+                <li class="menu"><a href="regra/cruzador.html" target="_self" rel="next">Cruzador</a></li>
+                <li class="menu"><a href="regra/porta_avioes.html" target="_self" rel="next">Porta avioes</a></li>
+            </div>
+        </ul>
+    </nav>
+    <main>
+        <h1>Jogos</h1>
+        <h2>Teste de dificuldade</h2>
+        <section id="caixa-de-abilidades">
+            <h3 id="abilidades" onclick="abrir('abilidades', 'lista1', 'teste de dificuldade', 'abilidades')">
+                <a href="#">Teste de dificuldade</a>
+            </h3>
+            <ul id='lista1' class="close">
+                <li id="reconhecimento" class="escolha" onclick="dado('reconhecimento')">
+                    <a href="#">Reconhecimento</a>
+                </li>
+                <li id="sabotagem" class="escolha" onclick="abrir('sabotagem', 'lista2', 'sabotagem', 'embarcações')">
+                    <a href="#">Sabotagem</a>
+                </li>
+                <ul id="lista2" class="close">
+                    <li id="bote_de_patrulha" class="escolha02" onclick="dado('sabotagem', 'bote de patrulha')">
+                        <a href="#">Bote de Patrulha</a>
+                    </li>
+                    <li id="submarino" class="escolha02" onclick="dado('sabotagem', 'submarino')">
+                        <a href="#">Submarino</a>
+                    </li>
+                    <li id="destroyer" class="escolha02" onclick="dado('sabotagem', 'destroyer')">
+                        <a href="#"><em>Destroyer</em></a>
+                    </li>
+                    <li id="cruzador" class="escolha02" onclick="dado('sabotagem', 'cruzador')">
+                        <a href="#">Cruzador</a>
+                    </li>
+                    <li id="porta_aviões" class="escolha02" onclick="dado('sabotagem', 'porta aviões')">
+                        <a href="#">Porta Aviões</a>
+                    </li>
+                </ul>
+                <li id="submersão" class="escolha" onclick="dado('submersão')">
+                    <a href="#">Submersão</a>
+                </li>
+                <li id="antimísseis" class="escolha" onclick="abrir('antimísseis', 'lista3', 'antimísseis', 'situação')">
+                    <a href="#">Antimísseis</a>
+                </li>
+                <ul id="lista3" class="close">
+                    <li class="escolha02" onclick="dado('antimísseis', 'destroyer', 1)">
+                        <a href="#">1º Míssil</a>
+                    </li>
+                    <li class="escolha02" onclick="dado('antimísseis', 'destroyer', 2)">
+                        <a href="#">2º Missil</a>
+                    </li>
+                </ul>
+                <li id="antiaéreo" class="escolha" onclick="abrir('antiaéreo', 'lista4', 'antiaéreo', 'situação')">
+                    <a href="#">Antiaéreo</a>
+                </li>
+                <ul id="lista4" class="close">
+                    <li class="escolha02" onclick="dado('antiaéreo', 'cruzador', 1)">
+                        <a href="#">Um Canhão</a>
+                    </li>
+                    <li class="escolha02" onclick="dado('antiaéreo', 'cruzador', 2)">
+                        <a href="#">Dois Canhões</a>
+                    </li>
+                </ul>
+                <li id="dálmata" class="escolha" onclick="abrir('dálmata', 'lista5', 'dálmata', 'situação')">
+                    <a href="#">Dálmata</a>
+                </li>
+                <ul id="lista5" class="close">
+                    <li class="escolha02" onclick="dado('dálmata', 'Contra Caça-torpedeiro')">
+                        <a href="#">Contra Caça-torpedeiro</a>
+                    </li>
+                    <li class="escolha02" onclick="dado('dálmata', 'Contra Bombardeiro Oestreich')">
+                        <a href="#">Contra Bombardeiro <em>Oestreich</em></a>
+                    </li>
+                </ul>
+            </ul>
+            <p id="resposta" style="margin:0px;"></p>
+        </section>
+        <section>
+            <h2>Histórico da partida</h2>
+            <div id="jogador1" class="tabuleiro">
+                <div id="fileira-numerada1">
+                    <div class="fileira"></div>
+                    <div class="fileira">1</div>
+                    <div class="fileira">2</div>
+                    <div class="fileira">3</div>
+                    <div class="fileira">4</div>
+                    <div class="fileira">5</div>
+                    <div class="fileira">6</div>
+                    <div class="fileira">7</div>
+                    <div class="fileira">8</div>
+                    <div class="fileira">9</div>
+                    <div class="fileira">10</div>                            
+                </div>
+                <div id="fileira-a1">
+                    <div class="letras">A</div>
+                    <div id="1a1" class="cbox" onclick="historico('a', '1')"></div>
+                    <div id="1a2" class="cbox" onclick="historico('a', '2')"></div>
+                    <div id="1a3" class="cbox" onclick="historico('a', '3')"></div>
+                    <div id="1a4" class="cbox" onclick="historico('a', '4')"></div>
+                    <div id="1a5" class="cbox" onclick="historico('a', '5')"></div>
+                    <div id="1a6" class="cbox" onclick="historico('a', '6')"></div>
+                    <div id="1a7" class="cbox" onclick="historico('a', '7')"></div>
+                    <div id="1a8" class="cbox" onclick="historico('a', '8')"></div>
+                    <div id="1a9" class="cbox" onclick="historico('a', '9')"></div>
+                    <div id="1a10" class="cbox" onclick="historico('a', '10')"></div>                            
+                </div>
+                <div id="fileira-b1">
+                    <div class="letras">B</div>
+                    <div id="1b1" class="cbox" onclick="historico('b', '1')"></div>
+                    <div id="1b2" class="cbox" onclick="historico('b', '2')"></div>
+                    <div id="1b3" class="cbox" onclick="historico('b', '3')"></div>
+                    <div id="1b4" class="cbox" onclick="historico('b', '4')"></div>
+                    <div id="1b5" class="cbox" onclick="historico('b', '5')"></div>
+                    <div id="1b6" class="cbox" onclick="historico('b', '6')"></div>
+                    <div id="1b7" class="cbox" onclick="historico('b', '7')"></div>
+                    <div id="1b8" class="cbox" onclick="historico('b', '8')"></div>
+                    <div id="1b9" class="cbox" onclick="historico('b', '9')"></div>                            
+                    <div id="1b10" class="cbox" onclick="historico('b', '10')"></div>
+                </div>
+                <div id="fileira-c1">
+                    <div class="letras">C</div>
+                    <div id="1c1" class="cbox" onclick="historico('c', '1')"></div>
+                    <div id="1c2" class="cbox" onclick="historico('c', '2')"></div>
+                    <div id="1c3" class="cbox" onclick="historico('c', '3')"></div>
+                    <div id="1c4" class="cbox" onclick="historico('c', '4')"></div>
+                    <div id="1c5" class="cbox" onclick="historico('c', '5')"></div>
+                    <div id="1c6" class="cbox" onclick="historico('c', '6')"></div>
+                    <div id="1c7" class="cbox" onclick="historico('c', '7')"></div>
+                    <div id="1c8" class="cbox" onclick="historico('c', '8')"></div>
+                    <div id="1c9" class="cbox" onclick="historico('c', '9')"></div>                            
+                    <div id="1c10" class="cbox" onclick="historico('c', '10')"></div>
+                </div>
+                <div id="fileira-d1">
+                    <div class="letras">D</div>
+                    <div id="1d1" class="cbox" onclick="historico('d', '1')"></div>
+                    <div id="1d2" class="cbox" onclick="historico('d', '2')"></div>
+                    <div id="1d3" class="cbox" onclick="historico('d', '3')"></div>
+                    <div id="1d4" class="cbox" onclick="historico('d', '4')"></div>
+                    <div id="1d5" class="cbox" onclick="historico('d', '5')"></div>
+                    <div id="1d6" class="cbox" onclick="historico('d', '6')"></div>
+                    <div id="1d7" class="cbox" onclick="historico('d', '7')"></div>
+                    <div id="1d8" class="cbox" onclick="historico('d', '8')"></div>
+                    <div id="1d9" class="cbox" onclick="historico('d', '9')"></div>                            
+                    <div id="1d10" class="cbox" onclick="historico('d', '10')"></div>
+                </div>
+                <div id="fileira-e1">
+                    <div class="letras">E</div>
+                    <div id="1e1" class="cbox" onclick="historico('e', '1')"></div>
+                    <div id="1e2" class="cbox" onclick="historico('e', '2')"></div>
+                    <div id="1e3" class="cbox" onclick="historico('e', '3')"></div>
+                    <div id="1e4" class="cbox" onclick="historico('e', '4')"></div>
+                    <div id="1e5" class="cbox" onclick="historico('e', '5')"></div>
+                    <div id="1e6" class="cbox" onclick="historico('e', '6')"></div>
+                    <div id="1e7" class="cbox" onclick="historico('e', '7')"></div>
+                    <div id="1e8" class="cbox" onclick="historico('e', '8')"></div>
+                    <div id="1e9" class="cbox" onclick="historico('e', '9')"></div>                            
+                    <div id="1e10" class="cbox" onclick="historico('e', '10')"></div>
+                </div>
+                <div id="fileira-f1">
+                    <div class="letras">F</div>
+                    <div id="1f1" class="cbox" onclick="historico('f', '1')"></div>
+                    <div id="1f2" class="cbox" onclick="historico('f', '2')"></div>
+                    <div id="1f3" class="cbox" onclick="historico('f', '3')"></div>
+                    <div id="1f4" class="cbox" onclick="historico('f', '4')"></div>
+                    <div id="1f5" class="cbox" onclick="historico('f', '5')"></div>
+                    <div id="1f6" class="cbox" onclick="historico('f', '6')"></div>
+                    <div id="1f7" class="cbox" onclick="historico('f', '7')"></div>
+                    <div id="1f8" class="cbox" onclick="historico('f', '8')"></div>
+                    <div id="1f9" class="cbox" onclick="historico('f', '9')"></div>                            
+                    <div id="1f10" class="cbox" onclick="historico('f', '10')"></div>
+                </div>
+                <div id="fileira-g1">
+                    <div class="letras">G</div>
+                    <div id="1g1" class="cbox" onclick="historico('g', '1')"></div>
+                    <div id="1g2" class="cbox" onclick="historico('g', '2')"></div>
+                    <div id="1g3" class="cbox" onclick="historico('g', '3')"></div>
+                    <div id="1g4" class="cbox" onclick="historico('g', '4')"></div>
+                    <div id="1g5" class="cbox" onclick="historico('g', '5')"></div>
+                    <div id="1g6" class="cbox" onclick="historico('g', '6')"></div>
+                    <div id="1g7" class="cbox" onclick="historico('g', '7')"></div>
+                    <div id="1g8" class="cbox" onclick="historico('g', '8')"></div>
+                    <div id="1g9" class="cbox" onclick="historico('g', '9')"></div>                            
+                    <div id="1g10" class="cbox" onclick="historico('g', '10')"></div>
+                </div>
+                <div id="fileira-h1">
+                    <div class="letras">H</div>
+                    <div id="1h1" class="cbox" onclick="historico('h', '1')"></div>
+                    <div id="1h2" class="cbox" onclick="historico('h', '2')"></div>
+                    <div id="1h3" class="cbox" onclick="historico('h', '3')"></div>
+                    <div id="1h4" class="cbox" onclick="historico('h', '4')"></div>
+                    <div id="1h5" class="cbox" onclick="historico('h', '5')"></div>
+                    <div id="1h6" class="cbox" onclick="historico('h', '6')"></div>
+                    <div id="1h7" class="cbox" onclick="historico('h', '7')"></div>
+                    <div id="1h8" class="cbox" onclick="historico('h', '8')"></div>
+                    <div id="1h9" class="cbox" onclick="historico('h', '9')"></div>                            
+                    <div id="1h10" class="cbox" onclick="historico('h', '10')"></div>
+                </div>
+                <div id="fileira-i1">
+                    <div class="letras">I</div>
+                    <div id="1i1" class="cbox" onclick="historico('i', '1')"></div>
+                    <div id="1i2" class="cbox" onclick="historico('i', '2')"></div>
+                    <div id="1i3" class="cbox" onclick="historico('i', '3')"></div>
+                    <div id="1i4" class="cbox" onclick="historico('i', '4')"></div>
+                    <div id="1i5" class="cbox" onclick="historico('i', '5')"></div>
+                    <div id="1i6" class="cbox" onclick="historico('i', '6')"></div>
+                    <div id="1i7" class="cbox" onclick="historico('i', '7')"></div>
+                    <div id="1i8" class="cbox" onclick="historico('i', '8')"></div>
+                    <div id="1i9" class="cbox" onclick="historico('i', '9')"></div>                            
+                    <div id="1i10" class="cbox" onclick="historico('i', '10')"></div>
+                </div>
+                <div id="fileira-j1">   
+                    <div class="letras">J</div>
+                    <div id="1j1" class="cbox" onclick="historico('j', '1')"></div>
+                    <div id="1j2" class="cbox" onclick="historico('j', '2')"></div>
+                    <div id="1j3" class="cbox" onclick="historico('j', '3')"></div>
+                    <div id="1j4" class="cbox" onclick="historico('j', '4')"></div>
+                    <div id="1j5" class="cbox" onclick="historico('j', '5')"></div>
+                    <div id="1j6" class="cbox" onclick="historico('j', '6')"></div>
+                    <div id="1j7" class="cbox" onclick="historico('j', '7')"></div>
+                    <div id="1j8" class="cbox" onclick="historico('j', '8')"></div>
+                    <div id="1j9" class="cbox" onclick="historico('j', '9')"></div>
+                    <div id="1j10" class="cbox" onclick="historico('j', '10')"></div>                            
+                </div>
+            </div>
+            <div id="jogador2" class="tabuleiro">
+                <div id="fileira-numerada2">
+                    <div class="fileira"></div>
+                    <div class="fileira">1</div>
+                    <div class="fileira">2</div>
+                    <div class="fileira">3</div>
+                    <div class="fileira">4</div>
+                    <div class="fileira">5</div>
+                    <div class="fileira">6</div>
+                    <div class="fileira">7</div>
+                    <div class="fileira">8</div>
+                    <div class="fileira">9</div>
+                    <div class="fileira">10</div>                            
+                </div>
+                <div id="fileira-a2">
+                    <div class="letras">A</div>
+                    <div id="2a1" class="cbox" onclick="historico('a', '1')"></div>
+                    <div id="2a2" class="cbox" onclick="historico('a', '2')"></div>
+                    <div id="2a3" class="cbox" onclick="historico('a', '3')"></div>
+                    <div id="2a4" class="cbox" onclick="historico('a', '4')"></div>
+                    <div id="2a5" class="cbox" onclick="historico('a', '5')"></div>
+                    <div id="2a6" class="cbox" onclick="historico('a', '6')"></div>
+                    <div id="2a7" class="cbox" onclick="historico('a', '7')"></div>
+                    <div id="2a8" class="cbox" onclick="historico('a', '8')"></div>
+                    <div id="2a9" class="cbox" onclick="historico('a', '9')"></div>
+                    <div id="2a10" class="cbox" onclick="historico('a', '10')"></div>                            
+                </div>
+                <div id="fileira-b2">
+                    <div class="letras">B</div>
+                    <div id="2b1" class="cbox" onclick="historico('b', '1')"></div>
+                    <div id="2b2" class="cbox" onclick="historico('b', '2')"></div>
+                    <div id="2b3" class="cbox" onclick="historico('b', '3')"></div>
+                    <div id="2b4" class="cbox" onclick="historico('b', '4')"></div>
+                    <div id="2b5" class="cbox" onclick="historico('b', '5')"></div>
+                    <div id="2b6" class="cbox" onclick="historico('b', '6')"></div>
+                    <div id="2b7" class="cbox" onclick="historico('b', '7')"></div>
+                    <div id="2b8" class="cbox" onclick="historico('b', '8')"></div>
+                    <div id="2b9" class="cbox" onclick="historico('b', '9')"></div>                            
+                    <div id="2b10" class="cbox" onclick="historico('b', '10')"></div>
+                </div>
+                <div id="fileira-c2">
+                    <div class="letras">C</div>
+                    <div id="2c1" class="cbox" onclick="historico('c', '1')"></div>
+                    <div id="2c2" class="cbox" onclick="historico('c', '2')"></div>
+                    <div id="2c3" class="cbox" onclick="historico('c', '3')"></div>
+                    <div id="2c4" class="cbox" onclick="historico('c', '4')"></div>
+                    <div id="2c5" class="cbox" onclick="historico('c', '5')"></div>
+                    <div id="2c6" class="cbox" onclick="historico('c', '6')"></div>
+                    <div id="2c7" class="cbox" onclick="historico('c', '7')"></div>
+                    <div id="2c8" class="cbox" onclick="historico('c', '8')"></div>
+                    <div id="2c9" class="cbox" onclick="historico('c', '9')"></div>                            
+                    <div id="2c10" class="cbox" onclick="historico('c', '10')"></div>
+                </div>
+                <div id="fileira-d2">
+                    <div class="letras">D</div>
+                    <div id="2d1" class="cbox" onclick="historico('d', '1')"></div>
+                    <div id="2d2" class="cbox" onclick="historico('d', '2')"></div>
+                    <div id="2d3" class="cbox" onclick="historico('d', '3')"></div>
+                    <div id="2d4" class="cbox" onclick="historico('d', '4')"></div>
+                    <div id="2d5" class="cbox" onclick="historico('d', '5')"></div>
+                    <div id="2d6" class="cbox" onclick="historico('d', '6')"></div>
+                    <div id="2d7" class="cbox" onclick="historico('d', '7')"></div>
+                    <div id="2d8" class="cbox" onclick="historico('d', '8')"></div>
+                    <div id="2d9" class="cbox" onclick="historico('d', '9')"></div>                            
+                    <div id="2d10" class="cbox" onclick="historico('d', '10')"></div>
+                </div>
+                <div id="fileira-e2">
+                    <div class="letras">E</div>
+                    <div id="2e1" class="cbox" onclick="historico('e', '1')"></div>
+                    <div id="2e2" class="cbox" onclick="historico('e', '2')"></div>
+                    <div id="2e3" class="cbox" onclick="historico('e', '3')"></div>
+                    <div id="2e4" class="cbox" onclick="historico('e', '4')"></div>
+                    <div id="2e5" class="cbox" onclick="historico('e', '5')"></div>
+                    <div id="2e6" class="cbox" onclick="historico('e', '6')"></div>
+                    <div id="2e7" class="cbox" onclick="historico('e', '7')"></div>
+                    <div id="2e8" class="cbox" onclick="historico('e', '8')"></div>
+                    <div id="2e9" class="cbox" onclick="historico('e', '9')"></div>                            
+                    <div id="2e10" class="cbox" onclick="historico('e', '10')"></div>
+                </div>
+                <div id="fileira-f2">
+                    <div class="letras">F</div>
+                    <div id="2f1" class="cbox" onclick="historico('f', '1')"></div>
+                    <div id="2f2" class="cbox" onclick="historico('f', '2')"></div>
+                    <div id="2f3" class="cbox" onclick="historico('f', '3')"></div>
+                    <div id="2f4" class="cbox" onclick="historico('f', '4')"></div>
+                    <div id="2f5" class="cbox" onclick="historico('f', '5')"></div>
+                    <div id="2f6" class="cbox" onclick="historico('f', '6')"></div>
+                    <div id="2f7" class="cbox" onclick="historico('f', '7')"></div>
+                    <div id="2f8" class="cbox" onclick="historico('f', '8')"></div>
+                    <div id="2f9" class="cbox" onclick="historico('f', '9')"></div>                            
+                    <div id="2f10" class="cbox" onclick="historico('f', '10')"></div>
+                </div>
+                <div id="fileira-g2">
+                    <div class="letras">G</div>
+                    <div id="2g1" class="cbox" onclick="historico('g', '1')"></div>
+                    <div id="2g2" class="cbox" onclick="historico('g', '2')"></div>
+                    <div id="2g3" class="cbox" onclick="historico('g', '3')"></div>
+                    <div id="2g4" class="cbox" onclick="historico('g', '4')"></div>
+                    <div id="2g5" class="cbox" onclick="historico('g', '5')"></div>
+                    <div id="2g6" class="cbox" onclick="historico('g', '6')"></div>
+                    <div id="2g7" class="cbox" onclick="historico('g', '7')"></div>
+                    <div id="2g8" class="cbox" onclick="historico('g', '8')"></div>
+                    <div id="2g9" class="cbox" onclick="historico('g', '9')"></div>                            
+                    <div id="2g10" class="cbox" onclick="historico('g', '10')"></div>
+                </div>
+                <div id="fileira-h2">
+                    <div class="letras">H</div>
+                    <div id="2h1" class="cbox" onclick="historico('h', '1')"></div>
+                    <div id="2h2" class="cbox" onclick="historico('h', '2')"></div>
+                    <div id="2h3" class="cbox" onclick="historico('h', '3')"></div>
+                    <div id="2h4" class="cbox" onclick="historico('h', '4')"></div>
+                    <div id="2h5" class="cbox" onclick="historico('h', '5')"></div>
+                    <div id="2h6" class="cbox" onclick="historico('h', '6')"></div>
+                    <div id="2h7" class="cbox" onclick="historico('h', '7')"></div>
+                    <div id="2h8" class="cbox" onclick="historico('h', '8')"></div>
+                    <div id="2h9" class="cbox" onclick="historico('h', '9')"></div>                            
+                    <div id="2h10" class="cbox" onclick="historico('h', '10')"></div>
+                </div>
+                <div id="fileira-i2">
+                    <div class="letras">I</div>
+                    <div id="2i1" class="cbox" onclick="historico('i', '1')"></div>
+                    <div id="2i2" class="cbox" onclick="historico('i', '2')"></div>
+                    <div id="2i3" class="cbox" onclick="historico('i', '3')"></div>
+                    <div id="2i4" class="cbox" onclick="historico('i', '4')"></div>
+                    <div id="2i5" class="cbox" onclick="historico('i', '5')"></div>
+                    <div id="2i6" class="cbox" onclick="historico('i', '6')"></div>
+                    <div id="2i7" class="cbox" onclick="historico('i', '7')"></div>
+                    <div id="2i8" class="cbox" onclick="historico('i', '8')"></div>
+                    <div id="2i9" class="cbox" onclick="historico('i', '9')"></div>                            
+                    <div id="2i10" class="cbox" onclick="historico('i', '10')"></div>
+                </div>
+                <div id="fileira-j2">   
+                    <div class="letras">J</div>
+                    <div id="2j1" class="cbox" onclick="historico('j', '1')"></div>
+                    <div id="2j2" class="cbox" onclick="historico('j', '2')"></div>
+                    <div id="2j3" class="cbox" onclick="historico('j', '3')"></div>
+                    <div id="2j4" class="cbox" onclick="historico('j', '4')"></div>
+                    <div id="2j5" class="cbox" onclick="historico('j', '5')"></div>
+                    <div id="2j6" class="cbox" onclick="historico('j', '6')"></div>
+                    <div id="2j7" class="cbox" onclick="historico('j', '7')"></div>
+                    <div id="2j8" class="cbox" onclick="historico('j', '8')"></div>
+                    <div id="2j9" class="cbox" onclick="historico('j', '9')"></div>
+                    <div id="2j10" class="cbox" onclick="historico('j', '10')"></div>                            
+                </div>
+            </div>
+            <div class="caixa-de-registro">
+                <p class="first">Registro:</p>
+                <select name="jogadas" id="registro" size="14"></select>
+            </div>
+            
+        </section>
+    </main>
+    <footer>
+        
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>

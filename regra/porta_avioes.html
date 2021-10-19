@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../imagens/BS.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../style.css">
+    <title>Porta Aviões</title>
+</head>
+<body>
+    <header>
+        <img src="../imagens/BS_logo_61px.png" alt="Logotipo">
+        <h1>BattleShip</h1>
+    </header>
+    <nav>
+        <div id="botão-menu" onclick="abrir('botão-menu', 'nav-menu', false, false)">
+            Menu
+        </div>
+        <ul id="nav-menu" style="display: none;">
+            <li class="menu"><a href="../index.html" target="_self" rel="next">Home</a></li>
+            <li class="menu"><a href="regra.html" target="_self" rel="next">Regras</a></li>
+            <div>
+                <li class="menu"><a href="bote_de_patrulha.html" target="_self" rel="next">Bote de patrulha</a></li>
+                <li class="menu"><a href="submarino.html" target="_self" rel="next">Submarino</a></li>
+                <li class="menu"><a href="destroyer.html" target="_self" rel="next"><em>Destroyer</em></a></li>
+                <li class="menu"><a href="cruzador.html" target="_self" rel="next">Cruzador</a></li>
+                <li class="menu"><a href="porta_avioes.html" target="_self" rel="next">Porta avioes</a></li>
+            </div>
+            <li class="menu"><a href="../jogos.html" target="_self" rel="next">Jogos</a></li>
+        </ul>
+    </nav>
+    <main>
+        <h1>Porta aviões</h1>
+
+        <p>Todas as ações do Porta Aviões são realizadas por unidades aéreas, e no caso da perda de alguma aeronave, ele levará uma rodada para substituí-la. Além disso, o Porta Aviões também dispõe de duas habilidades ofensivas, devendo ser escolhidas pelos jogadores.</p>
+        
+        <article>
+            <h2>Habilidades Ofensivas:</h2>            
+            <section>
+                <h3 class="tarja">Caça-torpedeiro BS - 102 Battleshit</h3>                
+                <p>Velozes e com boa manobrabilidade, os caças <em>Battleshit</em> são muito eficazes em voo de baixa altitude, ideais para lançar torpedos em embarcações inimigas.</p>
+                <p>
+                Dispondo de três aeronaves em sua esquadrilha, o Porta Aviões é capaz de atacar até três coordenadas em um mesmo turno, ou se necessário, repetir ataques frustrados por canhões antiaéreos. Uma vez que a esquadrilha voa em formação, as aeronaves não podem atacar separadamente, devendo o jogador respeitar um limite de 3x3 casas do tabuleiro, porém, se um dos caças for abatido, os que restarem agirão normalmente na rodada seguinte</p>
+                <p>Tendo-se efetuado o primeiro ataque, o segundo não deve passar de duas casas de distância, sendo o terceiro por sua vez, restrito a no máximo duas casas de distância tanto do primeiro quanto do segundo.</p>
+            </section>
+            <section>
+                <h3 class="tarja">Bombardeiro AH - 5 Oestreich.</h3>
+                <p>Graças a sua fuselagem compacta, o Bombardeiro <em>Oestreich</em> é perfeito para operar desde Porta Aviões e pequenos aeródromos. Seu compartimento tem capacidade para cinco bombas, além de possuir uma torre na calda com um canhão de 20mm, o que lhe permite abater caças inimigos.</p>
+                <p>Ao utilizar o Bombardeiro <em>Oestreich</em>, o jogador deve eleger a fileira ou coluna que deseja bombardear, em seguida escolher entre a primeira ou a segunda casa para dar início ao ataque, e a partir desta coordenada, ele irá bombardear cinco casas intercaladas. Esta habilidade necessita de uma rodada de espera para ser utilizada, não podendo ser usada duas rodadas consecutivas.</p>
+            </section>
+        </article>
+        <article>
+            <h2>Habilidade Especial:</h2>
+            <h3 class="tarja">Caça D - 101 Dálmata</h3>            
+            <p>Além de suas aeronaves de ataque, o Porta Aviões pode designar um caça para defender qualquer um dos barcos da frota contra aviões inimigos. Ao usar esta habilidade, ela será efetiva até o próximo turno do Porta Aviões, tornando ele vulnerável a ataques aéreos. Sempre que o caça não for usado na proteção de outra embarcação, ele estará de prontidão para defender o próprio Porta Aviões contra ataques aéreos, e sempre que travar combate, correrá o risco de ser abatido por <em>Dogfight</em>.</p>
+            <p><strong>Contra Caças-torpedeiros</strong>, o D - 101 deve combater individualmente, qualquer aeronave que tentar atacar sua embarcação protegida, tendo 40% de chance de abater caças inimigos, e 20% de chance de abate-los antes de lançarem torpedos. </p>
+            <p><strong>Contra o AH - 5 Oestreich</strong>, o Dálmata atuará, somente se a sua embarcação protegida for alvo do Bombardeio. Neste caso, o caça só pode defender a sua embarcação, devendo portanto ignorar as bombas que foram lançadas antes.</p> 
+            <p>Se o Dálmata enfrentar o <em>Oestreich</em>, ele tem 10% de chance de abate-lo antes de lançer bombas, 20% após ter lançado uma bomba, 30% após ter lançado duas bombas, 40% após ter lançado três bombas, 50% após ter lançado quatro bombas e 60% após ter lançado cinco bombas.</p>
+            <p>Nem sempre o Dálmata irá impedir o lançamento das cinco bombas, somente se a sua embarcação for alvo da primeira delas.</p>
+            <ul id="caixa" class="pequena">
+                <li class="tarja">Dificuldades:</li>
+                <li><strong>(Contra Caças-torpedeiros</strong>)</li>
+                <li>-2 - por Dogfight.</li>
+                <li>7 - Com disparo do torpedeiro.</li>
+                <li>9 - Sem disparos.</li>               
+                <li style="margin-top: 10px;"><strong>(Contra Bombardeiro Oestreich)</strong></li>
+                <li>-1 - por Dogfight.</li>
+                <li>5 - Com 5 bombas lançadas.</li>
+                <li>6 - Com 4 bombas lançadas.</li>
+                <li>7 - Com 3 bombas lançadas.</li>
+                <li>8 - Com 2 bombas lançadas.</li>
+                <li>9 - Com 1 bomba lançada.</li>
+                <li>10 - Sem disparos.</li>
+            </ul>           
+        </article>
+    </main>
+    <footer>
+
+    </footer>
+    <script src="../script.js"></script>
+</body>
+</html>

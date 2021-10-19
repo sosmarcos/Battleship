@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../imagens/BS.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../style.css">
+    <title>Submarino</title>
+</head>
+<body>
+    <header>
+        <img src="../imagens/BS_logo_61px.png" alt="Logotipo">
+        <h1>BattleShip</h1>
+    </header>
+    <nav>
+        <div id="botão-menu" onclick="abrir('botão-menu', 'nav-menu', false, false)">
+            Menu
+        </div>
+        <ul id="nav-menu" style="display: none;">
+            <li class="menu"><a href="../index.html" target="_self" rel="next">Home</a></li>
+            <li class="menu"><a href="regra.html" target="_self" rel="next">Regras</a></li>
+            <div>
+                <li class="menu"><a href="bote_de_patrulha.html" target="_self" rel="next">Bote de patrulha</a></li>
+                <li class="menu"><a href="destroyer.html" target="_self" rel="next"><em>Destroyer</em></a></li>
+                <li class="menu"><a href="cruzador.html" target="_self" rel="next">Cruzador</a></li>
+                <li class="menu"><a href="porta_avioes.html" target="_self" rel="next">Porta avioes</a></li>
+            </div>
+            <li class="menu"><a href="../jogos.html" target="_self" rel="next">Jogos</a></li>
+        </ul>
+    </nav>
+    <main>
+        <h1>Submarino</h1>
+        <article>
+            <h2>Habilidade Ofensiva:</h2>
+            <h3 class="tarja">Torpedo</h3>
+            <p>Por ser um projétil aquático auto-propulsionado, o torpedo realiza sua trajetória de forma retilínea, e não em parábola, como projéteis de canhões ou de obus.</p>
+            <p>Tendo em vista sua trajetória retilínea, ao usar o torpedo, o jogador deve escolher a coordenada referente ao disparo do torpedo, e em seguida, a direção na qual ele percorrerá, devendo sempre fazer referência aos pontos cardeais do mapa. Uma vez disparado, o torpedo percorre desde sua origem, três casas do tabuleiro, seguindo a direção escolhida.</p>
+            <p>Se durante sua trajetória o torpedo colidir com uma embarcação inimiga, ele não poderá concluí-la. Neste caso, o jogador que sofre a ação do torpedo, não deve continuar revelando seu mapa, de acordo com a trajetória que o torpedo teria originalmente.</p>
+        </article>
+        <article>
+            <h2>Habilidade Especial:</h2>            
+            <h3 class="tarja">Submersão</h3>            
+            <p>Devido a capacidade de submersão do Submarino, ele só pode ser atingido se estiver na superfície, o que lhe proporciona 50% de chance de escapar de disparos inimigos, com exceção de torpedos.</p>
+            <p>Quando uma embarcação efetuar um disparo em uma das coordenadas que correspondem ao submarino, o jogador que sofre o disparo terá que testar no dado o êxito de sua submersão, que apesar de não ocultar novamente o submarino, ao menos o preserva de dano, não devendo ser marcado nada no tabuleiro.</p>            
+            <ul id="caixa" class="pequena">
+                <li class="tarja">Dificuldade:</li>
+                <li><strong>Impossível desviar de torpedos.</strong></li>
+                <li>6 - Para os demais projéteis.</li>
+            </ul>
+        </article>
+    </main>
+    <footer>
+
+    </footer>
+    <script src="../script.js"></script>
+</body>
+</html>

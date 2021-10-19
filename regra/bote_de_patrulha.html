@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../imagens/BS.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../style.css">
+    <title>Bote de Patrulha</title>
+</head>
+<body>
+    <header>
+        <img src="../imagens/BS_logo_61px.png" alt="Logotipo">
+        <h1>BattleShip</h1>
+    </header>
+    <nav>
+        <div id="botão-menu" onclick="abrir('botão-menu', 'nav-menu', false, false)">
+            Menu
+        </div>
+        <ul id="nav-menu" style="display: none;">
+            <li class="menu"><a href="../index.html" target="_self" rel="next">Home</a></li>
+            <li class="menu"><a href="regra.html" target="_self" rel="next">Regras</a></li>
+            <div>
+                <li class="menu"><a href="submarino.html" target="_self" rel="next">Submarino</a></li>
+                <li class="menu"><a href="destroyer.html" target="_self" rel="next"><em>Destroyer</em></a></li>
+                <li class="menu"><a href="cruzador.html" target="_self" rel="next">Cruzador</a></li>
+                <li class="menu"><a href="porta_avioes.html" target="_self" rel="next">Porta avioes</a></li>
+            </div>
+            <li class="menu"><a href="../jogos.html" target="_self" rel="next">Jogos</a></li>
+        </ul>
+    </nav>
+    <main>
+        <h1>Bote de Patrulha</h1>
+        <article>
+            <h2>Habilidade Ofensiva:</h2>
+            <h3 class="tarja">Canhão naval de 127mm</h3>
+            <p>Por ser uma pequena embarcação focada em inteligência, o Bote de patrulha possui um único canhão de 127mm, com capacidade para atingir qualquer local do mapa inimigo.</p>
+        </article>
+        <article>
+            <h2>Habilidades Especiais:</h2>
+            <section>
+                <h3 class="tarja">Reconhecimento</h3>
+                <p>O reconhecimento é uma habilidade que permite ao bote, descobrir gradualmente a localização dos navios adversários. Aplicando-se ao mapa de forma ampla, o reconhecimento possui um caráter nebuloso, sendo eficaz para o jogador que o utiliza, sem revelar por completo as embarcações adversárias.</p>
+                <p>Por sua ampla ação sobre o mapa adversário, o reconhecimento se aplica aos quadrantes, e não as coordenadas, sendo os quadrantes: &alpha; (Alpha), &beta; (Beta), &gamma; (Gamma) e &delta; (Delta). Selecionado o quadrante, o reconhecimento afetará todas as embarcações presentes, e que estejam sujeitas a aplicação segundo sua dificuldade, devendo ser contadas somente as aplicações efetivas sobre cada embarcação.</p>
+                <p>Uma vez que o reconhecimento teve êxito sobre uma embarcação, ela terá um efeito diferente a cada aplicação bem sucedida, sendo eles:</p>
+                <ol id="caixa">
+                    <li><strong>Primeiro êxito:</strong> Revelar a presença da embarcação no quadrante selecionado.</li>
+                    <li><strong>Segundo êxito:</strong> Revelar exatamente a classe da embarcação.</li>
+                    <li><strong>Demais êxitos:</strong> Revelar uma coordenada da embarcação, seguindo a ordem alfanumérica.</li>
+                </ol>
+                <p>Esta habilidade necessita de uma rodada de espera para ser utilizada, não podendo ser usada duas rodadas consecutivas. Por ter seu efeito contabilizado individualmente para cada embarcação, o reconhecimento alcança a cada uma delas com dificuldades diferentes. Assim sendo, um jogador poderia estar contabilizando o quinto êxito sobre um Porta Aviões (dificuldade 3), sem necessariamente ter havido nenhum êxito sobre um Submarino (dificuldade 10) que se encontra no mesmo quadrante.</p>
+                <ul id="caixa" class="pequena">
+                    <li class="tarja">Dificuldades:</li>
+                    <li>3 - Porta Aviões</li>
+                    <li>5 - Cruzador</li>
+                    <li>7 - <em>Destroyer</em></li>
+                    <li>9 - Bote de Patrulha</li>
+                    <li>10 - Submarino</li>
+                </ul>
+            </section>
+            <section>
+                <h3 class="tarja">Sabotagem</h3>
+                <p>A sabotagem permite ao bote desativar a habilidade especial de qualquer embarcação inimiga. Havendo êxito, a habilidade especial do alvo é desativada por uma rodada. No caso de acerto crítico, a sabotagem é efetiva por 2 rodadas, e no caso de erro crítico, o bote de patrulha não poderá sabotar na próxima rodada. 	Para usar a sabotagem, basta escolher uma embarcação como alvo, e aplicar a dificuldade.</p>
+                <ul id="caixa" class="pequena">
+                    <li class="tarja">Dificuldades:</li>
+                    <li>1 - Erro Crítico</li>
+                    <li>5 - Cruzador <strong>(Um canhão antiaéreo)</strong></li>
+                    <li>6 - <em>Destroyer</em></li>
+                    <li>7 - Porta Aviões e Cruzador <strong>(Dois canhões antiaéreos)</strong></li>
+                    <li>8 - Submarino</li>
+                    <li>9 - Bote de Patrulha</li>
+                    <li>10 - Acerto Crítico</li>
+                </ul>
+            </section>
+        </article>
+    </main>
+    <footer>
+        
+    </footer>
+    <script src="../script.js"></script>
+</body>
+</html>

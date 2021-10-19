@@ -1,0 +1,21 @@
+Submarino
+
+Habilidade Ofensiva:
+
+Torpedo.
+
+	Por ser um projétil aquático auto-propulsionado, o torpedo realiza sua trajetória de forma retilínea, e não em parábola, como projéteis de canhões ou de obus.
+	Tendo em vista sua trajetória retilínea, ao usar o torpedo, o jogador deve escolher a coordenada referente ao disparo do torpedo, e em seguida, a direção na qual ele percorrerá, devendo sempre fazer referência aos pontos cardeais do mapa. Uma vez disparado, o torpedo percorre desde sua origem, três casas do tabuleiro, seguindo a direção escolhida.
+	Se durante sua trajetória o torpedo colidir com uma embarcação inimiga, ele não poderá concluí-la. Neste caso, o jogador que sofre a ação do torpedo, não deve continuar revelando seu mapa, de acordo com a trajetória que o torpedo teria originalmente.
+
+Habilidade Especial:
+
+Submersão.
+
+	Devido a capacidade de submersão do Submarino, ele só pode ser atingido se estiver na superfície, o que lhe proporciona 50% de chance de escapar de disparos inimigos, com exceção de torpedos.         
+    	Quando uma embarcação efetuar um disparo em uma das coordenadas que correspondem ao submarino, o jogador que sofre o disparo terá que testar no dado o êxito de sua submersão, que apesar de não ocultar novamente o submarino, ao menos o preserva de dano, não devendo ser marcado nada no tabuleiro.
+
+Dificuldade:
+Impossível desviar de torpedos.
+6 - Para os demais projéteis.
+

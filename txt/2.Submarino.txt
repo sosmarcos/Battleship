@@ -1,0 +1,29 @@
+Submarino
+
+Habilidade Ofensiva
+
+1 - Carga de Torpedo
+    1.1 Definição
+	A carga de torpedo, se refere ao lançamento de um torpedo.
+
+    1.2 Funcionamento
+	Por ser um projétil aquático, o torpedo realiza sua trajetória de forma retilínea, e não em parábola, como mísseis e projéteis de canhões ou de obus.
+
+    1.3 Aplicação
+	Tendo em vista sua trajetória retilínea, ao usar o torpedo, o jogador deve escolher a coordenada referente ao disparo do torpedo, e em seguida, a direção na qual ele percorrerá, devendo sempre fazer referência aos pontos cardeais do mapa. Uma vez disparado, o torpedo percorre desde sua origem, três casas do tabuleiro, seguindo a direção escolhida.
+
+    1.4 Dificuldade
+	Para utilizar o torpedo, o jogador não necessita de um teste no dado, porém, se durante sua trajetória o torpedo colidir com uma embarcação inimiga, ele não poderá concluí-la. Neste caso, o jogador que sofre a ação do torpedo, não deve continuar revelando seu mapa, de acordo com a trajetória que o torpedo teria originalmente.
+
+Habilidades Especiais
+
+1 - Submersão
+    1.1 Definição
+	Por ser uma embarcação que submerge, o submarino só pode ser atingido se estiver na superfície, o que lhe proporciona 50% de chance de escapar de disparos inimigos, com exceção de cargas de Torpedo.         
+    
+    1.2 Dificuldade
+	Quando um jogador efetua um disparo em uma das coordenadas correspondentes a presença de um submarino, o jogador que sofre o disparo terá que testar no dado o êxito de sua submersão, que apesar de não ocultar novamente o submarino, ao menos o preserva sem qualquer dano.
+
+	Dificuldade:
+Impossível desviar de torpedos
+6 - Para os demais projéteis

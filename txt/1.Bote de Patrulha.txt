@@ -1,0 +1,59 @@
+Bote de Patrulha
+
+Habilidade Ofensiva
+
+1 - Tiro simples
+    1.1 Definição
+    Dispara um único projétil em qualquer local do mapa inimigo.
+
+Habilidades Especiais
+
+1 - Inteligência
+    1.1 - Definição
+        A Inteligência é uma habilidade ativa, que permite ao bote revelar gradualmente a localização dos navios adversários.
+        
+    1.2 - Funcionamento
+        Aplicando-se ao mapa de forma ampla, a inteligência adquire um caráter nebuloso, de forma que ela possa ser eficaz para o jogador que a utiliza, sem revelar por completo as embarcações adversárias.
+        
+        Por sua ampla ação sobre o mapa adversário, a inteligência se aplica aos quadrantes, e não as coordenadas, sendo os quadrantes: Alpha, Beta, Gamma e Delta.
+    
+    1.3 - Aplicações
+        Selecionado o quadrante, a inteligência afetará todas as embarcações presentes, e que estejam sujeitas a aplicação segundo sua dificuldade, devendo ser contadas somente as aplicações efetivas sobre cada embarcação.
+
+        Uma vez que a inteligência teve êxito sobre uma embarcação, ela terá um efeito diferente a cada aplicação bem sucedida, sendo eles:
+
+        . Primeiro êxito: Revelar a presença da embarcação no quadrante selecionado.
+        . Segundo êxito: Revelar exatamente o tipo da embarcação.
+        . Demais êxitos: Revelar uma coordenada da embarcação, seguindo a ordem alfanumérica.
+
+        Esta habilidade necessita de uma rodada de espera para ser utilizada, não podendo ser usada duas rodadas consecutivas.
+    
+    1.4 - Dificuldade
+        Por ter seu efeito contabilizado individualmente para cada embarcação, a inteligência alcança a cada uma delas com dificuldades diferentes. Assim sendo, um jogador poderia estar contabilizando o quinto êxito sobre um porta Aviões(dificuldade 3), sem necessariamente ter havido nenhum êxito sobre um Submarino(dificuldade 10) que se encontra no mesmo quadrante.
+
+        Dificuldades:
+        3 - Porta Aviões.
+        5 - Cruzador.
+        7 - Destroyer.
+        9 - Bote de Patrulha.
+        10 - Submarino.
+
+2 - Sabotagem
+    2.1 Definição
+        A sabotagem é uma habilidade ativa, que permite ao bote desativar a habilidade especial de qualquer embarcação inimiga.
+
+    2.2 Funcionamento
+        Havendo êxito, a habilidade especial do alvo é desativada por uma rodada. No caso de acerto crítico, a sabotagem é efetiva por 2 rodadas, e no caso de erro crítico, o bote de patrulha não poderá sabotar na próxima rodada.
+
+    2.3 Aplicações
+        Para usar a sabotagem, basta escolher uma embarcação como alvo, e aplicar a dificuldade.
+
+    2.4 Dificuldade
+
+        1 - Erro Crítico.
+        5 - Cruzador(1 Bateria antiaérea).
+        6 - Destroyer.
+        7 - Porta Aviões e Cruzador(2 Baterias antiaéreas).
+        8 - Submarino.
+        9 - Bote de Patrulha.
+        10 - Acerto Crítico.

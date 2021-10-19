@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../imagens/BS.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../style.css">
+    <title>Regras para Battleship</title>
+</head>
+<body>
+    <header>
+        <img src="../imagens/BS_logo_61px.png" alt="Logotipo">
+        <h1>BattleShip</h1>
+    </header>
+    <nav>
+        <div id="botão-menu" onclick="abrir('botão-menu', 'nav-menu', false, false)">
+            Menu
+        </div>
+        <ul id="nav-menu" style="display: none;">
+            <li class="menu"><a href="../index.html" target="_self" rel="next">Home</a></li>
+            <div>
+                <li class="menu"><a href="bote_de_patrulha.html" target="_self" rel="next">Bote de patrulha</a></li>
+                <li class="menu"><a href="submarino.html" target="_self" rel="next">Submarino</a></li>
+                <li class="menu"><a href="destroyer.html" target="_self" rel="next"><em>Destroyer</em></a></li>
+                <li class="menu"><a href="cruzador.html" target="_self" rel="next">Cruzador</a></li>
+                <li class="menu"><a href="porta_avioes.html" target="_self" rel="next">Porta avioes</a></li>
+            </div>
+            <li class="menu"><a href="../jogos.html" target="_self" rel="next">Jogos</a></li>
+        </ul>
+    </nav>
+    <main>
+        <h1>Regras para Battleship</h1>
+        <article>
+            <h2>Turnos e Rodadas</h2>
+            <p>
+                Em Cada turno do jogo, atuará uma embarcação diferente, seguindo uma ordem crescente em relação ao comprimento dos navios. Para isso, cada embarcação tem um nome que serve para indicar seu turno de ação.
+            </p>
+            <ul id="caixa" class="via" >
+                <li>
+                    <a class="li_link" href="bote_de_patrulha.html" target="_self" rel="next">
+                        Primeiro Turno - Bote de Patrulha (2x1)</a>
+                </li>
+                <li>
+                    <a class="li_link" href="submarino.html" target="_self" rel="next">
+                        Segundo Turno -  Submarino (3x1)</a>
+                </li>
+                <li>
+                    <a class="li_link" href="destroyer.html" target="_self" rel="next">
+                        Terceiro Turno - <em>Destroyer</em> (3x1)</a>
+                </li>
+                <li>
+                    <a class="li_link" href="cruzador.html" target="_self" rel="next">
+                        Quarto Turno - Cruzador (4x1)</a>
+                </li>
+                <li>
+                    <a class="li_link" href="porta_avioes.html" target="_self" rel="next">
+                        Quinto Turno - Porta Aviões (5x1)</a>
+                </li>
+            </ul>
+            <p>
+                Após ter jogado com todos os navios, a sequência reinicia mais uma vez em ordem crescente. O número de turnos que levar para utilizar todos os navios disponíveis corresponde a uma rodada.
+            </p>
+        </article>
+        <article>
+            <h2>Dificuldades</h2>
+            <p>
+                Algumas habilidades possuem uma dificuldade numérica, que representa o ponto de êxito. Dificuldade 7 por exemplo, indica no dado, o número a partir do qual se obtém o êxito de uma determinada ação. 7 ou superior neste caso, devendo sempre utilizar-se do dado de 10 lados.
+            </p>
+        </article>
+        <article>
+            <h2>Embarcações</h2>
+            <p>
+                O <em>Battleship</em> é jogado com embarcações diferentes entre si, sendo os mesmos número e tipos de navios para cada um dos dois jogadores.
+            </p>
+            <p>
+                Cada embarcação possui suas próprias habilidades ofensivas e defensivas, e se houver mais de uma, o jogador deverá escolher uma habilidade que não poderá ser alterada durante o jogo. No caso de múltiplas opções de habilidades, os dois jogadores não poderão possuir habilidades iguais, devendo ser escolhidas após a  disposição dos barcos no tabuleiro, e antes do começo do jogo.
+            </p>
+        </article>
+    </main>
+    <footer>
+
+    </footer>
+    <script src="../script.js"></script>
+    </body>
+</html>

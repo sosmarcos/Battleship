@@ -1,0 +1,43 @@
+Porta aviões
+
+Todas as ações do Porta Aviões são realizadas por unidades aéreas, e no caso da perda de alguma aeronave, ele levará uma rodada para substituí-la. Além disso, o Porta Aviões também dispõe de duas habilidades ofensivas, devendo ser escolhidas pelos jogadores.
+
+Habilidades Ofensivas:
+
+Caça-torpedeiro BS - 102 Battleshit.
+
+	Velozes e com boa manobrabilidade, os caças Battleshit são muito eficazes em voo de baixa altitude, ideais para lançar torpedos em embarcações inimigas.
+	Dispondo de três aeronaves em sua esquadrilha, o Porta Aviões é capaz de atacar até três coordenadas em um mesmo turno, ou se necessário, repetir ataques frustrados por canhões antiaéreos. Uma vez que a esquadrilha voa em formação, as aeronaves não podem atacar separadamente, devendo o jogador respeitar um limite de 3x3 casas do tabuleiro, porém, se um dos caças for abatido, os que restarem agirão normalmente na rodada seguinte. 
+Tendo-se efetuado o primeiro ataque, o segundo não deve passar de duas casas de distância, sendo o terceiro por sua vez, restrito a no máximo duas casas de distância tanto do primeiro quanto do segundo.
+
+Bombardeiro AH - 5 Oestreich.
+
+	Graças a sua fuselagem compacta, o Bombardeiro Oestreich é perfeito para operar desde Porta Aviões e pequenos aeródromos. Seu compartimento tem capacidade para cinco bombas, além de possuir uma torre na calda com um canhão de 20mm, o que lhe permite abater caças inimigos. 
+Ao utilizar o Bombardeiro Oestreich, o jogador deve eleger a fileira ou coluna que deseja bombardear, em seguida escolher entre a primeira ou a segunda casa para dar início ao ataque, e a partir desta coordenada, ele irá bombardear cinco casas intercaladas. Esta habilidade necessita de uma rodada de espera para ser utilizada, não podendo ser usada duas rodadas consecutivas.
+
+Habilidade Especial:
+
+Caça D - 101 Dálmata
+
+	Além de suas aeronaves de ataque, o Porta Aviões pode designar um caça para defender qualquer um dos barcos da frota contra aviões inimigos. Ao usar esta habilidade, ela será efetiva até o próximo turno do Porta Aviões, tornando ele vulnerável a ataques aéreos. 
+	Sempre que o caça não for usado na proteção de outra embarcação, ele estará de prontidão para defender o próprio Porta Aviões contra ataques aéreos, e sempre que travar combate, correrá o risco de ser abatido por Dogfight.
+	Contra Caças-torpedeiros, o D - 101 deve combater individualmente, qualquer aeronave que tentar atacar sua embarcação protegida, tendo 40% de chance de abater caças inimigos, e 20% de chance de abate-los antes de lançarem torpedos. 
+	Contra o AH - 5 Oestreich, o Dálmata atuará, somente se a sua embarcação protegida for alvo do Bombardeio. Neste caso, o caça só pode defender a sua embarcação, devendo portanto ignorar as bombas que foram lançadas antes. 
+	Se o Dálmata enfrentar o Oestreich, ele tem 10% de chance de abate-lo antes de lançer bombas, 20% após ter lançado uma bomba, 30% após ter lançado duas bombas, 40% após ter lançado três bombas, 50% após ter lançado quatro bombas e 60% após ter lançado cinco bombas.
+	Nem sempre o Dálmata irá impedir o lançamento das cinco bombas, somente se a sua embarcação for alvo da primeira delas.
+
+Dificuldades:
+(Contra Caças-torpedeiros) 
+-2 - por Dogfight.
+7 - Com disparo do torpedeiro.
+9 - Sem disparos.
+
+(Contra Bombardeiro Oestreich)
+-1 - por Dogfight.
+5 - Com 5 bombas lançadas.
+6 - Com 4 bombas lançadas.
+7 - Com 3 bombas lançadas.
+8 - Com 2 bombas lançadas.
+9 - Com 1 bomba lançada.
+10 - Sem disparos.
+
