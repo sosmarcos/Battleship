@@ -258,6 +258,14 @@ li.escolha02:hover {
     font: normal 1.3em 'georgia';
 }
 
+
+.nome-de-jogador {
+    margin: 0px;
+    padding: 2px 10px 2px 10px;
+
+    font: bold 1.3em 'Georgia';
+}
+
 .tabuleiro{ 
     display: inline-block;
     max-width: max-content;

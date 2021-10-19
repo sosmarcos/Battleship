@@ -408,70 +408,101 @@ function dado(abilidade, embarcação='', número=0) {
     listaTeste.style.display = 'none'
     window.document.getElementById('abilidades').innerHTML = '<a href="#">Teste de dificuldade</a>'
     resposta.innerHTML = respostaFinal
-    window.historico(abilidade, exito)
+    window.historico(exito)
 }
 
-let seletor = document.getElementById('registro')
-let jogador1 = 'Peronio'
-let jogador2 = 'Olga'
-let player = 1
+class Embarcação {
+    constructor(nome, abilidadePrimaria, efetivos, abilidadeSecundaria) {
+        this.nome = nome
+        this.abilidadePrimaria = abilidadePrimaria
+        this.efetivos = efetivos
+        this.abilidadeSecundaria = abilidadeSecundaria
+    }
+}
+
+class Player {
+    constructor(nome, embarcações) {
+        this.nome = nome
+        this.embarcações = embarcações
+    }
+}
+
+let jogador1 = new Player('Peronio', [
+    new Embarcação('Bote de Patrulha', 'Canhão bote', 1, 'Reconhecimento'),
+    new Embarcação('Submarino', 'Torpedo', 3, 'Submersão'),
+    new Embarcação('Destroyer', 'Mísseis', 2, 'Antimísseis'),
+    new Embarcação('Cruzador', 'Canhão Cruzador', 4, 'Antiaéreo'),
+    new Embarcação('Porta Avioes', 'Battleshit', 3, 'Dálmata')
+])
+let jogador2 = new Player('Olga', [
+    new Embarcação('Bote de Patrulha', 'Canhão bote', 1, 'Sabotagem'),
+    new Embarcação('Submarino', 'Torpedo', 3, 'Submersão'),
+    new Embarcação('Destroyer', 'Mísseis', 2, 'Antimísseis'),
+    new Embarcação('Cruzador', 'Canhão Cruzador', 4, 'Antiaéreo'),
+    new Embarcação('Porta Avioes', 'Oestreich', 5, 'Dálmata')
+])
+let vez = [1, jogador1, jogador2]
 let efetivo = 1
 let rodada = 1
-let cont = 0
-let turno = [ //[nome, [nome, efetivos], nome]
-    [true, 'bote de patrulha', ['canhão bote', 1], ['reconhecimento', 'sabotagem']],
-    [true, 'submarino', ['torpedo', 3], 'submersão'], 
-    [true, 'destroyer', ['mísseis', 2], 'antimísseis'], 
-    [true, 'cruzador', ['canhão cruzador', 4], 'antiaéreo'],
-    [true, 'porta avioes', ['battleshit', 3], 'dálmata']
-]
+let index = 0
+
+let seletor = document.getElementById('registro')
+function registros(classe, txt) {
+    let registro = document.createElement('option')
+    registro.setAttribute('class', classe)
+    registro.innerText = txt
+    return registro
+}
+
+function sleep(time) {
+    var date = new Date();
+    var curDate = null;
+    do { curDate = new Date(); }
+    while(curDate-date < time*100);
+}
 
 if (window.document.title == 'Jogos') {
-    seletor.innerHTML = `<option class="titulo">${rodada}ª Rodada</option>`
-    seletor.innerHTML += `<option class="destaque">${jogador1} - ${turno[cont][1]}</option>`
+    window.document.getElementById('nomejogador').innerText = `${jogador1.nome} - ${jogador2.embarcações[index].nome}`
+    seletor.appendChild(registros('destaque', `${vez[vez[0]].nome} - ${vez[vez[0]].embarcações[index].nome}`))
 }
-function historico(par1, par2) { 
+function historico(par1, letra, número) { 
     if (par1.length == 1) {
-        let letra = par1
-        let número = par2
-        let coordenada = window.document.getElementById(`${player}${letra}${número}`)
-        console.log(`Coordenadas: ${letra.toUpperCase()}, ${número}`)
         
-        if (turno[cont][0]) {
-            seletor.innerHTML += `<option class="normal">${turno[cont][2][0][0].toUpperCase()}${turno[cont][2][0].slice(1)}: ${letra.toUpperCase()}▬${número}</option>`
-            coordenada.style.backgroundColor = '#19218f'
-            coordenada.style.borderColor = '#ffc90e'
-            coordenada.removeAttribute('onclick')
-            turno[cont][2][1] -= 1
-            console.log(`efetivos = ${turno[cont][2][1]}|contador = ${cont} `)
-            if (turno[cont][2][1] == 0) {
-                if (player == 2) {
-                    player = 1
-                    turno[cont][2][1] = efetivo
-                    cont += 1
-                    if (cont == 5) {
-                        cont = 0
-                        rodada++
-                        seletor.innerHTML += `<option class="titulo">${rodada}ª Rodada</option>`
-                    }
-                    efetivo = turno[cont][2][1]
-                    seletor.innerHTML += `<option class="destaque">${jogador1} - ${turno[cont][1]}</option>`
-                } else {
-                    player = 2
-                    turno[cont][2][1] = efetivo
-                    seletor.innerHTML += `<option class="destaque">${jogador2} - ${turno[cont][1]}</option>`
-                }
-            }  
-        }  
+        //O primero resultado da função é a marcação do tabuleiro
+        let coordenada = window.document.getElementById(`${par1}${letra}${número}`)
+        coordenada.style.backgroundColor = '#19218f'
+        coordenada.style.borderColor = '#ffc90e'
+        coordenada.removeAttribute('onclick')
 
+        //O segundo resultado da função é o registro da jogada
+        seletor.appendChild(registros('normal', `${vez[vez[0]].embarcações[index].abilidadePrimaria}: ${letra.toUpperCase()}▬${número}`))
+        //Troca de displays
+        if (vez[0] == 1) {    
+            if (efetivo == jogador1.embarcações[index].efetivos) {
+                vez[0] = 2
+                window.document.getElementById('nomejogador').innerText = `${jogador2.nome} - ${jogador2.embarcações[index].nome}`
+                seletor.appendChild(registros('destaque', `${jogador2.nome} - ${jogador2.embarcações[index].nome}`))
+                efetivo = 1 
+            } else {efetivo++}     
+        } else {
+            if (efetivo == jogador2.embarcações[index].efetivos) {
+                vez[0] = 1
+                if (index == 4) {
+                    index = 0; rodada++ 
+                    seletor.appendChild(registros('titulo', `${rodada}ª Rodada`))
+                } else {index++}
+                window.document.getElementById('nomejogador').innerText = `${jogador1.nome} - ${jogador1.embarcações[index].nome}`
+                seletor.appendChild(registros('destaque', `${jogador1.nome} - ${jogador1.embarcações[index].nome}`))
+                efetivo = 1
+            } else {efetivo++}
+        }
     } else {
-        let abilidade = par1
-        let exito = par2
+        let exito = par1
 
         seletor.innerHTML += `<option class="extenso">${exito[0][0].toUpperCase()}${exito[0].slice(1)} - ${exito[1]}</option>`    
        
         // Este if retorna o registro do reconhecimento
-        if (abilidade == 'reconhecimento') {
+        if (exito[0] == 'reconhecimento') {
             if (!exito[2]) {
                 seletor.innerHTML += `<option class="extenso">Nenhuma embarcação encontrada</option>` 
             } else {
@@ -483,29 +514,29 @@ function historico(par1, par2) {
         }
 
         // Este if retorna o registro da sabotagem
-        if (abilidade == 'sabotagem') {seletor.innerHTML += `<option class="extenso">${exito[3]}</option>`}
+        if (exito[0] == 'sabotagem') {seletor.innerHTML += `<option class="extenso">${exito[3]}</option>`}
 
         // Este if retorna o registro da submersão
-        if (abilidade == 'submersão') {
+        if (exito[0] == 'submersão') {
             if (exito[2]) {seletor.innerHTML += `<option class="extenso">Submersão bem sucedida</option>`}
             else {seletor.innerHTML += `<option class="extenso">Submarino atingido</option>`}
         }
 
         // Este if retorna o registro do antimísseis
-        if (abilidade == 'antimísseis') {
+        if (exito[0] == 'antimísseis') {
             if (exito[2]) {seletor.innerHTML += `<option class="extenso">Míssil neutralizado</option>`}
             else {seletor.innerHTML += `<option class="extenso">Míssil atingiu seu alvo</option>`}
         }
 
         // Este if retorna o registro do antiaéreo
-        if (abilidade == 'antiaéreo') {
+        if (exito[0] == 'antiaéreo') {
             if (exito[2]) {seletor.innerHTML += `<option class="extenso">Ataque neutralizado</option>`}
             else {seletor.innerHTML += `<option class="extenso">Ataque realizado</option>`}
             seletor.innerHTML += `<option class="extenso">${exito[3]}</option>`
         }
 
         // Este if retorna o registro do dálmata
-        if (abilidade == 'dálmata') {
+        if (exito[0] == 'dálmata') {
             if (exito[4] == 'Contra Caça-torpedeiro') {
                 if (exito[2]) {seletor.innerHTML += `<option class="extenso">Ataque neutralizado</option>`}
                 else {seletor.innerHTML += `<option class="extenso">Ataque inimigo realizado</option>`}
