@@ -427,6 +427,13 @@ class Player {
     }
 }
 
+class Coordenada {
+    constructor(y, x) {
+        this.y = y
+        this.x = x
+    }
+}
+
 let jogador1 = new Player('Peronio', [
     new Embarcação('Bote de Patrulha', 'Canhão bote', 1, 'Reconhecimento'),
     new Embarcação('Submarino', 'Torpedo', 3, 'Submersão'),
@@ -445,7 +452,7 @@ let vez = [1, jogador1, jogador2]
 let efetivo = 1
 let rodada = 1
 let index = 0
-
+let Cc = []
 let seletor = document.getElementById('registro')
 function registros(classe, txt) {
     let registro = document.createElement('option')
@@ -461,12 +468,62 @@ function sleep(time) {
     while(curDate-date < time*100);
 }
 
+function validação(nTab, y, x) {
+    //Primeiro o x resebe um valor numerico, e a estrutura switch atribui um valor para o y
+    x = parseInt(x)
+    switch (y) { 
+        case 'a':
+            y = 1
+            break
+        case 'b':
+            y = 2
+            break
+        case 'c':
+            y = 3
+            break
+        case 'd':
+            y = 4
+            break
+        case 'e':
+            y = 5
+            break
+        case 'f':
+            y = 6
+            break
+        case 'g':
+            y = 7
+            break
+        case 'h':
+            y = 8
+            break
+        case 'i':
+            y = 9
+            break
+        case 'j':
+            y = 10
+            break
+        default:
+            break
+    }
+    
+    //Este teste vailda a jogada relacionando o jogador da vez com seu respectivo tabuleiro
+    if (nTab == vez[0]) {
+        Cc.push(new Coordenada(y, x)); console.log(Cc)
+
+        //Este if é para validar o uso do submarino
+        if (index == 1) {
+            console.log(`Validação da jogada do submarino nas coordenadas(${x}, ${y})`)
+        }
+        return true
+    } else {return false}
+}
+
 if (window.document.title == 'Jogos') {
     window.document.getElementById('nomejogador').innerText = `${jogador1.nome} - ${jogador2.embarcações[index].nome}`
     seletor.appendChild(registros('destaque', `${vez[vez[0]].nome} - ${vez[vez[0]].embarcações[index].nome}`))
 }
 function historico(par1, letra, número) { 
-    if (par1.length == 1) {
+    if (par1.length == 1 && validação(par1, letra, número)) {
         
         //O primero resultado da função é a marcação do tabuleiro
         let coordenada = window.document.getElementById(`${par1}${letra}${número}`)
@@ -474,15 +531,17 @@ function historico(par1, letra, número) {
         coordenada.style.borderColor = '#ffc90e'
         coordenada.removeAttribute('onclick')
 
-        //O segundo resultado da função é o registro da jogada
+        //O segundo resultado da função é o registro da jogada a div.caixa-de-registro
         seletor.appendChild(registros('normal', `${vez[vez[0]].embarcações[index].abilidadePrimaria}: ${letra.toUpperCase()}▬${número}`))
-        //Troca de displays
+        
+        //Este algoririto é responsavel por passar a vez, trocando os barcos, e revesando os jogadores
         if (vez[0] == 1) {    
             if (efetivo == jogador1.embarcações[index].efetivos) {
                 vez[0] = 2
                 window.document.getElementById('nomejogador').innerText = `${jogador2.nome} - ${jogador2.embarcações[index].nome}`
                 seletor.appendChild(registros('destaque', `${jogador2.nome} - ${jogador2.embarcações[index].nome}`))
-                efetivo = 1 
+                efetivo = 1
+                Cc = []
             } else {efetivo++}     
         } else {
             if (efetivo == jogador2.embarcações[index].efetivos) {
@@ -494,8 +553,13 @@ function historico(par1, letra, número) {
                 window.document.getElementById('nomejogador').innerText = `${jogador1.nome} - ${jogador1.embarcações[index].nome}`
                 seletor.appendChild(registros('destaque', `${jogador1.nome} - ${jogador1.embarcações[index].nome}`))
                 efetivo = 1
+                Cc = []
             } else {efetivo++}
         }
+    } else if (!validação(par1)) {
+        if (par1 == 1) {
+            seletor.appendChild(registros('erro', `Não é sua vez ${jogador1.nome}`))
+        } else {seletor.appendChild(registros('erro', `Não é sua vez ${jogador2.nome}`))}
     } else {
         let exito = par1
 

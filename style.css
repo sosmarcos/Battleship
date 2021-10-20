@@ -359,6 +359,11 @@ li.escolha02:hover {
     background-color: var(--azulclaro);
 }
 
+#registro > option.erro {
+    color: white;
+    background-color: rgba(255, 0, 0, 0.637);
+}
+
 article {
     margin: 0px 20px;
 }
