@@ -448,12 +448,14 @@ let jogador2 = new Player('Olga', [
     new Embarcação('Cruzador', 'Canhão Cruzador', 4, 'Antiaéreo'),
     new Embarcação('Porta Avioes', 'Oestreich', 5, 'Dálmata')
 ])
-let vez = [1, jogador1, jogador2]
-let efetivo = 1
-let rodada = 1
-let index = 0
-let Cc = []
 let seletor = document.getElementById('registro')
+let vez = [1, jogador1, jogador2] //Vetor que serve de contador para o revezamento dos jogadores
+let efetivo = 1                  //Variavel que serve de contador para as ações/turno de qualquer barco
+let rodada = 1                  //Variavel que armazena o número de rodadas 
+let index = 0                  //Variavel que serve de indice para a lista de barcos
+let c_turno = []              //Vetor responsavel por armazenar todas as coordenadas/turno de qualquer barco 
+let c_all = []               //Vetor responsavel por armazenar todas as coordenadas declaradas no jogo
+
 function registros(classe, txt) {
     let registro = document.createElement('option')
     registro.setAttribute('class', classe)
@@ -468,53 +470,114 @@ function sleep(time) {
     while(curDate-date < time*100);
 }
 
-function validação(nTab, y, x) {
-    //Primeiro o x resebe um valor numerico, e a estrutura switch atribui um valor para o y
-    x = parseInt(x)
-    switch (y) { 
+function letterToNumber(letra) {
+    switch (letra) { 
         case 'a':
-            y = 1
-            break
+            return 1
         case 'b':
-            y = 2
-            break
+            return 2
         case 'c':
-            y = 3
-            break
+            return 3
         case 'd':
-            y = 4
-            break
+            return 4
         case 'e':
-            y = 5
-            break
+            return 5
         case 'f':
-            y = 6
-            break
+            return 6
         case 'g':
-            y = 7
-            break
+            return 7
         case 'h':
-            y = 8
-            break
+            return 8
         case 'i':
-            y = 9
-            break
+            return 9
         case 'j':
-            y = 10
-            break
+            return 10
         default:
             break
     }
+}
+
+function numberToLetter(número, toString=false) {
+    switch (número) {
+        case 1:
+            if (toString) {return '1'} else {return 'a'}
+        case 2:
+            if (toString) {return '2'} else {return 'b'}
+        case 3:
+            if (toString) {return '3'} else {return 'c'}
+        case 4:
+            if (toString) {return '4'} else {return 'd'}
+        case 5:
+            if (toString) {return '5'} else {return 'e'}
+        case 6:
+            if (toString) {return '6'} else {return 'f'}
+        case 7:
+            if (toString) {return '7'} else {return 'g'}
+        case 8:
+            if (toString) {return '8'} else {return 'h'}
+        case 9:
+            if (toString) {return '9'} else {return 'i'}
+        case 10:
+            if (toString) {return '10'} else {return 'j'}
+        default:
+            break
+    }
+}
+
+function validação(nTab, letra, número) {
+    //Primeiro o x resebe um valor numerico, e a estrutura switch atribui um valor para o y
+    let x; let y
+    x = parseInt(número)
+    y = letterToNumber(letra)
     
     //Este teste vailda a jogada relacionando o jogador da vez com seu respectivo tabuleiro
     if (nTab == vez[0]) {
-        Cc.push(new Coordenada(y, x)); console.log(Cc)
+        c_turno.push(new Coordenada(y, x)); console.log(c_turno)
 
-        //Este if é para validar o uso do submarino
-        if (index == 1) {
-            console.log(`Validação da jogada do submarino nas coordenadas(${x}, ${y})`)
+        //Este swicth é para validar o uso do submarino
+        switch (index) {
+            case 1:
+                console.log(`Validação da jogada do submarino nas coordenadas(${x}, ${y})`)
+                if (efetivo == 2) {
+                    //Coletando as coordenadas para a validação da segunda
+                    let primeiro_x = c_turno[0].x; let segundo_x = c_turno[1].x; let terceiro_x 
+                    let primeiro_y = c_turno[0].y; let segundo_y = c_turno[1].y; let terceiro_y
+                    
+                    //Validação da segunda coordenada
+                    if (segundo_x > primeiro_x-2 && 
+                        segundo_x < primeiro_x+2 && 
+                        segundo_y > primeiro_y-2 && 
+                        segundo_y < primeiro_y+2) {
+
+                        //Calculando o x da terceira coordenada
+                        if (segundo_x > primeiro_x) {terceiro_x = segundo_x + 1}
+                        else if (segundo_x < primeiro_x) {terceiro_x = segundo_x - 1}
+                        else {terceiro_x = segundo_x}
+                        
+                        //Claculendo o y da terceira coordenada
+                        if (segundo_y > primeiro_y) {terceiro_y = segundo_y + 1}
+                        else if (segundo_y < primeiro_y) {terceiro_y = segundo_y - 1}
+                        else {terceiro_y = segundo_y}
+
+                        /*console.log(`x1=${primeiro_x}, x2=${segundo_x}, 3x=${terceiro_x}`)
+                        let c2 = window.document.getElementById(`${nTab}${letra}${número}`)
+                        let c3 = window.document.getElementById(`${nTab}${numberToLetter(terceiro_y)}${numberToLetter(terceiro_x, true)}`)*/
+                            return [nTab, numberToLetter(terceiro_y), numberToLetter(terceiro_x, true)]
+                    } else {
+                        c_turno.pop()
+                        return false
+                    }
+                } break
+            case 2:
+                console.log(`Validação da jogada do destroyer nas coodenadas(${x}, ${y})`)
+                break
+            case 3:
+                console.log(`Validação da jogada do cruzador nas coordenadas(${x}, ${y})`)
+                break
+            case 4:
+                console.log(`Validação da jogada do porta aviões nas coordenadas(${x}, ${y})`)
         }
-        return true
+        return [1]
     } else {return false}
 }
 
@@ -522,8 +585,9 @@ if (window.document.title == 'Jogos') {
     window.document.getElementById('nomejogador').innerText = `${jogador1.nome} - ${jogador2.embarcações[index].nome}`
     seletor.appendChild(registros('destaque', `${vez[vez[0]].nome} - ${vez[vez[0]].embarcações[index].nome}`))
 }
-function historico(par1, letra, número) { 
-    if (par1.length == 1 && validação(par1, letra, número)) {
+function historico(par1, letra, número) {
+    quindi = validação(par1, letra, número)
+    if (par1.length == 1 && quindi) {
         
         //O primero resultado da função é a marcação do tabuleiro
         let coordenada = window.document.getElementById(`${par1}${letra}${número}`)
@@ -531,7 +595,7 @@ function historico(par1, letra, número) {
         coordenada.style.borderColor = '#ffc90e'
         coordenada.removeAttribute('onclick')
 
-        //O segundo resultado da função é o registro da jogada a div.caixa-de-registro
+        //O segundo resultado da função é o registro da jogada na div.caixa-de-registro
         seletor.appendChild(registros('normal', `${vez[vez[0]].embarcações[index].abilidadePrimaria}: ${letra.toUpperCase()}▬${número}`))
         
         //Este algoririto é responsavel por passar a vez, trocando os barcos, e revesando os jogadores
@@ -541,7 +605,7 @@ function historico(par1, letra, número) {
                 window.document.getElementById('nomejogador').innerText = `${jogador2.nome} - ${jogador2.embarcações[index].nome}`
                 seletor.appendChild(registros('destaque', `${jogador2.nome} - ${jogador2.embarcações[index].nome}`))
                 efetivo = 1
-                Cc = []
+                c_turno = []
             } else {efetivo++}     
         } else {
             if (efetivo == jogador2.embarcações[index].efetivos) {
@@ -553,9 +617,11 @@ function historico(par1, letra, número) {
                 window.document.getElementById('nomejogador').innerText = `${jogador1.nome} - ${jogador1.embarcações[index].nome}`
                 seletor.appendChild(registros('destaque', `${jogador1.nome} - ${jogador1.embarcações[index].nome}`))
                 efetivo = 1
-                Cc = []
+                c_turno = []
             } else {efetivo++}
         }
+        if (quindi.length > 1) {window.historico(quindi[0], quindi[1], quindi[2])}
+        
     } else if (!validação(par1)) {
         if (par1 == 1) {
             seletor.appendChild(registros('erro', `Não é sua vez ${jogador1.nome}`))
