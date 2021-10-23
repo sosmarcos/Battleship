@@ -434,6 +434,44 @@ class Coordenada {
     }
 }
 
+class Eventos {
+    constructor(listener, next) {
+        if (next) {
+            let originalColor = [next.style.backgroundColor, next.style.borderColor, next.style.borderStyle]
+            this.on = function() {
+                next.style.backgroundColor = '#ffc90e'
+                next.style.borderColor = '#19218f'
+                next.style.borderStyle = 'groove'
+            }
+            this.off = function() {
+                next.style.backgroundColor = originalColor[0]
+                next.style.borderColor = originalColor[1]
+                next.style.borderStyle = originalColor[2]
+            }
+        }
+    }
+}
+
+class GerenciadorDeEventos {
+    constructor(nTab, letra, número) {
+        let c3 = calculo_de_c3(letra, número) 
+        if (c3) {
+            this.next = document.getElementById(`${nTab}${numberToLetter(c3.y)}${numberToLetter(c3.x, true)}`)
+        } else {this.next = c3}
+
+        this.listener = document.getElementById(`${nTab}${letra}${número}`)
+        this.eventos = new Eventos(this.listener, this.next)
+        this.adicionar = function () {
+            this.listener.addEventListener('mouseenter', this.eventos.on)
+            this.listener.addEventListener('mouseout', this.eventos.off)
+        }
+        this.remover = function () {
+            this.listener.removeEventListener('mouseenter', this.eventos.on)
+            this.listener.removeEventListener('mouseout', this.eventos.off)
+        }
+    }
+}
+
 let jogador1 = new Player('Peronio', [
     new Embarcação('Bote de Patrulha', 'Canhão bote', 1, 'Reconhecimento'),
     new Embarcação('Submarino', 'Torpedo', 3, 'Submersão'),
@@ -455,6 +493,28 @@ let rodada = 1                  //Variavel que armazena o número de rodadas
 let index = 0                  //Variavel que serve de indice para a lista de barcos
 let c_turno = []              //Vetor responsavel por armazenar todas as coordenadas/turno de qualquer barco 
 let c_all = []               //Vetor responsavel por armazenar todas as coordenadas declaradas no jogo
+let zona = []
+
+function calculo_de_c3(letra, número) {
+    //Coletando as coordenadas para a validação da segunda
+    let c1 = new Coordenada(c_turno[0].y, c_turno[0].x)
+    let c2 = new Coordenada(letterToNumber(letra), parseInt(número))
+
+    //Calculando o x da terceira coordenada
+    if (c2.x > c1.x) {terceiro_x = c2.x + 1}
+    else if (c2.x < c1.x) {terceiro_x = c2.x - 1}
+    else {terceiro_x = c2.x}
+        
+    //Claculendo o y da terceira coordenada
+    if (c2.y > c1.y) {terceiro_y = c2.y + 1}
+    else if (c2.y < c1.y) {terceiro_y = c2.y - 1}
+    else {terceiro_y = c2.y}
+
+    if (terceiro_x < 11 && terceiro_x > 0) {
+        if (terceiro_y < 11 && terceiro_y > 0) {return new Coordenada(terceiro_y, terceiro_x)}
+    }
+    return false
+}
 
 function registros(classe, txt) {
     let registro = document.createElement('option')
@@ -538,31 +598,45 @@ function validação(nTab, letra, número) {
         switch (index) {
             case 1:
                 console.log(`Validação da jogada do submarino nas coordenadas(${x}, ${y})`)
+                if (efetivo == 1) {
+                    //Gerando a zona de ação do torpedo baseado na primeira coordenada
+                    zonaFantasma = [[-1, -1],[-1, 0],[-1, +1],[0, +1],[+1, +1],[+1, 0],[+1, -1],[0, -1]]
+                    for (let c=0; c<zonaFantasma.length; c++) {
+                        if (y + zonaFantasma[c][0] > 0 && y + zonaFantasma[c][0] < 11) {
+                            if (x + zonaFantasma[c][1] > 0 && x + zonaFantasma[c][1] < 11) {
+                               zona.push(
+                                   new GerenciadorDeEventos(
+                                       nTab, 
+                                       numberToLetter(y + zonaFantasma[c][0]), 
+                                       numberToLetter(x + zonaFantasma[c][1], true)
+                                   )
+                               ) 
+                            }
+                        }                      
+                    }
+                    for (var c in zona) {
+                        zona[c].adicionar()
+                    }
+                }
                 if (efetivo == 2) {
                     //Coletando as coordenadas para a validação da segunda
-                    let primeiro_x = c_turno[0].x; let segundo_x = c_turno[1].x; let terceiro_x 
-                    let primeiro_y = c_turno[0].y; let segundo_y = c_turno[1].y; let terceiro_y
+                    let primeiro_x = c_turno[0].x; let segundo_x = c_turno[1].x
+                    let primeiro_y = c_turno[0].y; let segundo_y = c_turno[1].y
                     
                     //Validação da segunda coordenada
                     if (segundo_x > primeiro_x-2 && 
                         segundo_x < primeiro_x+2 && 
                         segundo_y > primeiro_y-2 && 
                         segundo_y < primeiro_y+2) {
-
-                        //Calculando o x da terceira coordenada
-                        if (segundo_x > primeiro_x) {terceiro_x = segundo_x + 1}
-                        else if (segundo_x < primeiro_x) {terceiro_x = segundo_x - 1}
-                        else {terceiro_x = segundo_x}
                         
-                        //Claculendo o y da terceira coordenada
-                        if (segundo_y > primeiro_y) {terceiro_y = segundo_y + 1}
-                        else if (segundo_y < primeiro_y) {terceiro_y = segundo_y - 1}
-                        else {terceiro_y = segundo_y}
+                        for (let c in zona) {
+                            zona[c].remover()
+                        }
+                        zona = []
 
-                        /*console.log(`x1=${primeiro_x}, x2=${segundo_x}, 3x=${terceiro_x}`)
-                        let c2 = window.document.getElementById(`${nTab}${letra}${número}`)
-                        let c3 = window.document.getElementById(`${nTab}${numberToLetter(terceiro_y)}${numberToLetter(terceiro_x, true)}`)*/
-                            return [nTab, numberToLetter(terceiro_y), numberToLetter(terceiro_x, true)]
+                        let c3 = calculo_de_c3(letra, número)
+                        if (!c3) {efetivo++} 
+                        else {return [nTab, numberToLetter(c3.y), numberToLetter(c3.x, true)]}
                     } else {
                         c_turno.pop()
                         return false
@@ -593,6 +667,7 @@ function historico(par1, letra, número) {
         let coordenada = window.document.getElementById(`${par1}${letra}${número}`)
         coordenada.style.backgroundColor = '#19218f'
         coordenada.style.borderColor = '#ffc90e'
+        coordenada.style.borderStyle = 'double'
         coordenada.removeAttribute('onclick')
 
         //O segundo resultado da função é o registro da jogada na div.caixa-de-registro
