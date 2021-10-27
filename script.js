@@ -435,7 +435,20 @@ class Coordenada {
 }
 
 class Eventos {
-    constructor(listener, next) {
+    constructor(listener, next, invalidas=false) {
+        if (invalidas) {
+            let originalColor = [listener.style.backgroundColor, listener.style.borderColor, listener.style.borderStyle]
+            this.red = function() {
+                listener.style.backgroundColor = 'red'
+                listener.style.borderColor = '#19218f'
+                listener.style.borderStyle = 'groove'
+            }
+            this.origin = function() {
+                listener.style.backgroundColor = originalColor[0]
+                listener.style.borderColor = originalColor[1]
+                listener.style.borderStyle = originalColor[2]
+            }
+        }
         if (next) {
             let originalColor = [next.style.backgroundColor, next.style.borderColor, next.style.borderStyle]
             this.on = function() {
@@ -472,6 +485,82 @@ class GerenciadorDeEventos {
     }
 }
 
+class EventosOestreich {
+    constructor (listener, alcance) {
+        let originalColor = []
+        let originalListener = [listener.style.backgroundColor, listener.style.borderColor, listener.style.borderStyle]
+        for (let c in alcance) {
+            originalColor.push([alcance[c].style.backgroundColor, alcance[c].style.borderColor, alcance[c].style.borderStyle])
+        }
+        this.on = function() {
+            listener.style.backgroundColor = 'red'
+            listener.style.borderColor = '#19218f'
+            listener.style.borderStyle = 'groove'
+            for (let c in alcance) {
+                alcance[c].style.backgroundColor = '#ffc90e'
+                alcance[c].style.borderColor = '#19218f'
+                alcance[c].style.borderStyle = 'groove'
+            }
+        }
+        this.off = function () {
+            listener.style.backgroundColor = originalListener[0]
+            listener.style.borderColor = originalListener[1]
+            listener.style.borderStyle = originalListener[2]
+            for (let c in alcance) {
+                alcance[c].style.backgroundColor = originalColor[c][0]
+                alcance[c].style.borderColor = originalColor[c][1]
+                alcance[c].style.borderStyle = originalColor[c][2]
+            }
+        }
+    }
+}
+
+class Oestreich {
+    constructor (nTab, letra, número, tipo, xpar, ypar) {
+        this.self = document.getElementById(`${nTab}${letra}${número}`)
+        this.tipo = tipo
+        this.alcance = []
+        var inicio = 1
+        if (tipo == 'x') {
+            if (xpar) {inicio = 2}
+            for (var c=inicio; c<11; c+=2) {
+                if (c != c_turno[0].x) {
+                    this.alcance.push(document.getElementById(`${nTab}${letra}${numberToLetter(c, true)}`))
+                }
+            }
+        } else {
+            if (ypar) {inicio = 2}
+            for (var c=inicio; c<11; c+=2) {
+                if (c != c_turno[0].y) {
+                    this.alcance.push(document.getElementById(`${nTab}${numberToLetter(c)}${número}`))
+                }
+            }
+        }
+        let originalColor = []
+        for (let c in this.alcance) {
+            originalColor.push([
+                this.alcance[c].style.backgroundColor, 
+                this.alcance[c].style.borderColor, 
+                this.alcance[c].style.borderStyle
+            ])
+        }
+        this.eventos = new EventosOestreich(this.self, this.alcance)
+        this.acionar = function() {
+            this.self.addEventListener('mouseenter', this.eventos.on)
+            this.self.addEventListener('mouseout', this.eventos.off)
+        }
+        this.desativar = function() {
+            for (let c in this.alcance) {
+                this.alcance[c].style.backgroundColor = originalColor[c][0]
+                this.alcance[c].style.borderColor = originalColor[c][1]
+                this.alcance[c].style.borderStyle = originalColor[c][2]
+            }
+            this.self.removeEventListener('mouseenter', this.eventos.on)
+            this.self.removeEventListener('mouseout', this.eventos.off)
+        }
+    }
+}
+
 let jogador1 = new Player('Peronio', [
     new Embarcação('Bote de Patrulha', 'Canhão bote', 1, 'Reconhecimento'),
     new Embarcação('Submarino', 'Torpedo', 3, 'Submersão'),
@@ -495,9 +584,42 @@ let c_turno = []              //Vetor responsavel por armazenar todas as coorden
 let c_all = []               //Vetor responsavel por armazenar todas as coordenadas declaradas no jogo
 let zona = []
 
-function calculo_de_c3(letra, número) {
+function adjacente(x1, y1, x2, y2, alcance) {
+    if (x2 > x1-alcance && x2 < x1+alcance && y2 > y1-alcance && y2 < y1+alcance) {return true} else {return false}
+}
+
+function calculo_de_oestreich(c1, c2) {
+    var sentido
+    var y = c2.y
+    var x = c2.x
+    if (c1.x == c2.x) {
+        if (c2.y > c1.y) {sentido = 'S'}   //Para baixo = +y
+        else (sentido = 'N')               //Para cima  = -y
+    } else if (c1.y == c2.y) {
+        if (c2.x > c1.x) {sentido = 'L'}   //Para a direita  = +x
+        else (sentido = 'O')               //Para a esquerda = -x
+    }
+
+    var next
+    switch (sentido) {
+        case 'S':
+            next = new Coordenada(y+2, x)
+            break
+        case 'N':
+            next = new Coordenada(y-2, x)
+            break
+        case 'L':
+            next = new Coordenada(y, x+2)
+            break
+        case 'O':
+            next = new Coordenada(y, x-2)
+            break
+    }
+    return next
+}
+
+function calculo_de_c3(letra, número, c1= new Coordenada(c_turno[0].y, c_turno[0].x)) {
     //Coletando as coordenadas para a validação da segunda
-    let c1 = new Coordenada(c_turno[0].y, c_turno[0].x)
     let c2 = new Coordenada(letterToNumber(letra), parseInt(número))
 
     //Calculando o x da terceira coordenada
@@ -600,7 +722,7 @@ function validação(nTab, letra, número) {
                 console.log(`Validação da jogada do submarino nas coordenadas(${x}, ${y})`)
                 if (efetivo == 1) {
                     //Gerando a zona de ação do torpedo baseado na primeira coordenada
-                    zonaFantasma = [[-1, -1],[-1, 0],[-1, +1],[0, +1],[+1, +1],[+1, 0],[+1, -1],[0, -1]]
+                    var zonaFantasma = [[-1, -1],[-1, 0],[-1, +1],[0, +1],[+1, +1],[+1, 0],[+1, -1],[0, -1]]
                     for (let c=0; c<zonaFantasma.length; c++) {
                         if (y + zonaFantasma[c][0] > 0 && y + zonaFantasma[c][0] < 11) {
                             if (x + zonaFantasma[c][1] > 0 && x + zonaFantasma[c][1] < 11) {
@@ -609,25 +731,18 @@ function validação(nTab, letra, número) {
                                        nTab, 
                                        numberToLetter(y + zonaFantasma[c][0]), 
                                        numberToLetter(x + zonaFantasma[c][1], true)
-                                   )
-                               ) 
+                                    )
+                                ) 
                             }
-                        }                      
-                    }
+                        } 
+                    }                     
                     for (var c in zona) {
                         zona[c].adicionar()
                     }
                 }
                 if (efetivo == 2) {
-                    //Coletando as coordenadas para a validação da segunda
-                    let primeiro_x = c_turno[0].x; let segundo_x = c_turno[1].x
-                    let primeiro_y = c_turno[0].y; let segundo_y = c_turno[1].y
-                    
-                    //Validação da segunda coordenada
-                    if (segundo_x > primeiro_x-2 && 
-                        segundo_x < primeiro_x+2 && 
-                        segundo_y > primeiro_y-2 && 
-                        segundo_y < primeiro_y+2) {
+                    //Testeando a proximidade das coordenadas
+                    if (adjacente(c_turno[0].x, c_turno[0].y, c_turno[1].x, c_turno[1].y, 2)) {
                         
                         for (let c in zona) {
                             zona[c].remover()
@@ -635,23 +750,129 @@ function validação(nTab, letra, número) {
                         zona = []
 
                         let c3 = calculo_de_c3(letra, número)
-                        if (!c3) {efetivo++} 
-                        else {return [nTab, numberToLetter(c3.y), numberToLetter(c3.x, true)]}
-                    } else {
-                        c_turno.pop()
-                        return false
-                    }
+                        if (!c3) {efetivo++} else {return [nTab, numberToLetter(c3.y), numberToLetter(c3.x, true)]}
+                    } else {c_turno.pop(); return false}
                 } break
             case 2:
                 console.log(`Validação da jogada do destroyer nas coodenadas(${x}, ${y})`)
                 break
             case 3:
                 console.log(`Validação da jogada do cruzador nas coordenadas(${x}, ${y})`)
+                if (efetivo == 2) {
+                    //Testeando a proximidade da coordenada 2 para 1
+                    if (adjacente(c_turno[0].x, c_turno[0].y, c_turno[1].x, c_turno[1].y, 2)) {return true}
+                    else {c_turno.pop(); return false}
+                }
+                if (efetivo == 3) {
+                    //Testeando a proximidade da coordenada 3 para 1 e 2
+                    if (
+                        adjacente(c_turno[0].x, c_turno[0].y, c_turno[2].x, c_turno[2].y, 2) ||
+                        adjacente(c_turno[1].x, c_turno[1].y, c_turno[2].x, c_turno[2].y, 2)
+                    ) {c_turno.pop(); return false} else {return true}
+                }
+                if (efetivo == 4) {
+                    //Testeando a proximidade da coordenada 4 para 3, 1 e 2
+                    if (adjacente(c_turno[2].x, c_turno[2].y, c_turno[3].x, c_turno[3].y, 2)) {
+                        if (
+                            adjacente(c_turno[0].x, c_turno[0].y, c_turno[3].x, c_turno[3].y, 2) ||
+                            adjacente(c_turno[1].x, c_turno[1].y, c_turno[3].x, c_turno[3].y, 2)
+                        ) {c_turno.pop(); return false} else {return true}
+                    } else {c_turno.pop(); return false}
+                }
                 break
             case 4:
                 console.log(`Validação da jogada do porta aviões nas coordenadas(${x}, ${y})`)
+                if (vez[vez[0]].embarcações[index].abilidadePrimaria == 'Battleshit') {
+                    if (efetivo == 2) {
+                        if (adjacente(c_turno[0].x, c_turno[0].y, c_turno[1].x, c_turno[1].y, 3)) {return true}
+                        else {c_turno.pop(); return false}
+                    }
+                    if (efetivo == 3) {
+                        if (
+                            adjacente(c_turno[0].x, c_turno[0].y, c_turno[2].x, c_turno[2].y, 3) &&
+                            adjacente(c_turno[1].x, c_turno[1].y, c_turno[2].x, c_turno[2].y, 3)
+                        ) {return true} else {c_turno.pop(); return false}
+                    }
+                } else {
+                    if (efetivo == 1) {
+                        if (y < 9 && y > 2) {if (x < 9 && x > 2) {c_turno.pop() ;return false}}
+                        var Xpar
+                        var Ypar
+                        var forX = true
+                        var forY = true
+
+                        if (c_turno[0].x > 2 && c_turno[0].x < 9) {forX = false}
+                        else if (c_turno[0].y > 2 && c_turno[0].y < 9) {forY = false}
+
+                        if (x % 2 == 0) {Xpar = true} else {Xpar = false}
+                        if (y % 2 == 0) {Ypar = true} else {Ypar = false}
+                        
+                        if (forX) {
+                            for (let Xx=1; Xx<11; Xx++){
+                                if (Xx != x) {
+                                    zona.push(
+                                        new Oestreich(nTab, numberToLetter(y), numberToLetter(Xx, true), 'x', Xpar, Ypar)
+                                    )
+                                }
+                            }
+                        }
+                        
+                        if (forY) {
+                            for (let Yy=1; Yy<11; Yy++){
+                                if (Yy != y) {
+                                    zona.push(
+                                        new Oestreich(nTab, numberToLetter(Yy), numberToLetter(x, true), 'y', Xpar, Ypar)
+                                    )
+                                }
+                            }
+                        }
+                        
+                        for (var c in zona) {
+                            zona[c].acionar()
+                        }
+                    }
+                    if (efetivo == 2) {
+                        //Primeira segunda. Impede que a segunda coordenada pule uma casa na ordem dos disparos
+                        if (c_turno[1].x < c_turno[0].x-3 || c_turno[1].x > c_turno[0].x+3) {c_turno.pop(); return false}
+                        if (c_turno[1].y < c_turno[0].y-3 || c_turno[1].y > c_turno[0].y+3) {c_turno.pop(); return false}
+
+                        //Segunda segunda. Impede que, mesmo das beradas, a ação inicie no meio. Tanto pelo X como pelo Y
+                        if (c_turno[0].x > 2 && c_turno[0].x < 9) {
+                            if (c_turno[1].x != c_turno[0].x) {c_turno.pop(); return false}
+                        } else if (c_turno[0].y > 2 && c_turno[0].y < 9) {
+                            if (c_turno[1].y != c_turno[0].y) {c_turno.pop(); return false}
+                        }
+                        if (//Terceira segunda. Validação da concordancia par/inpar das coordenadas 1 e 2 na horizontal
+                            c_turno[0].x % 2 == 0 && c_turno[1].x % 2 != 0 ||
+                            c_turno[0].x % 2 != 0 && c_turno[1].x % 2 == 0
+                            ) {c_turno.pop(); return false}
+
+                        else if (//Em seguida é feita a validação se a ação for realizada na vertical
+                            c_turno[0].y % 2 == 0 && c_turno[1].y % 2 != 0 ||
+                            c_turno[0].y % 2 != 0 && c_turno[1].y % 2 == 0
+                            ) {c_turno.pop(); return false}
+
+                        else {//Quarta segunda. Validada o sentido em que seguirá a ação, excluindo as diagonais
+                            if (c_turno[0].x == c_turno[1].x || c_turno[0].y == c_turno[1].y) {
+                                for (var c in zona) {zona[c].desativar()}//Desativação dos eventos
+                                var next = calculo_de_oestreich(c_turno[0], c_turno[1])
+                                
+                                return [nTab, numberToLetter(next.y), numberToLetter(next.x, true)]
+                            }
+                        } 
+                    }
+                    if (efetivo == 3) {
+                        var next = calculo_de_oestreich(c_turno[1], c_turno[2])
+                        return [nTab, numberToLetter(next.y), numberToLetter(next.x, true)]
+                    }
+                    if (efetivo == 4) {
+                        var next = calculo_de_oestreich(c_turno[2], c_turno[3])
+                        return [nTab, numberToLetter(next.y), numberToLetter(next.x, true)]
+                    }
+                }
+                break
         }
-        return [1]
+        return true
     } else {return false}
 }
 
@@ -661,6 +882,7 @@ if (window.document.title == 'Jogos') {
 }
 function historico(par1, letra, número) {
     quindi = validação(par1, letra, número)
+    console.log(`Quindi(${quindi})`)
     if (par1.length == 1 && quindi) {
         
         //O primero resultado da função é a marcação do tabuleiro
@@ -697,10 +919,11 @@ function historico(par1, letra, número) {
         }
         if (quindi.length > 1) {window.historico(quindi[0], quindi[1], quindi[2])}
         
-    } else if (!validação(par1)) {
-        if (par1 == 1) {
-            seletor.appendChild(registros('erro', `Não é sua vez ${jogador1.nome}`))
-        } else {seletor.appendChild(registros('erro', `Não é sua vez ${jogador2.nome}`))}
+    } else if (!quindi) {
+        if (par1 != vez[0]) {
+            if (vez[0] == 1) {seletor.appendChild(registros('erro', `Não é sua vez ${jogador2.nome}`))}
+            else {seletor.appendChild(registros('erro', `Não é sua vez ${jogador1.nome}`))}
+        } else {seletor.appendChild(registros('erro', `Coordenada invalida`))}
     } else {
         let exito = par1
 
