@@ -59,6 +59,252 @@ var hootText = `<li id="reconhecimento" class="escolha" onclick="dado('reconheci
 </ul>`
 var resposta = window.document.getElementById('resposta')
 
+class Embarcação {
+    constructor(nome, comprimento, abilidadePrimaria, efetivos, abilidadeSecundaria, disposição) {
+        this.nome = nome
+        this.comprimento = comprimento
+        this.abilidadePrimaria = abilidadePrimaria
+        this.efetivos = efetivos
+        this.abilidadeSecundaria = abilidadeSecundaria
+        this.disposição = disposição
+    }
+}
+
+class Player {
+    constructor(nome, embarcações) {
+        this.nome = nome
+        this.embarcações = embarcações
+    }
+}
+
+class Coordenada {
+    constructor(y, x) {
+        this.y = y
+        this.x = x
+    }
+}
+
+class Eventos {
+    constructor(listener, next, invalidas=false) {
+        if (invalidas) {
+            let originalColor = [listener.style.backgroundColor, listener.style.borderColor, listener.style.borderStyle]
+            this.red = function() {
+                listener.style.backgroundColor = 'red'
+                listener.style.borderColor = '#19218f'
+                listener.style.borderStyle = 'groove'
+            }
+            this.origin = function() {
+                listener.style.backgroundColor = originalColor[0]
+                listener.style.borderColor = originalColor[1]
+                listener.style.borderStyle = originalColor[2]
+            }
+        }
+        if (next) {
+            let originalColor = [next.style.backgroundColor, next.style.borderColor, next.style.borderStyle]
+            this.on = function() {
+                next.style.backgroundColor = '#ffc90e'
+                next.style.borderColor = '#19218f'
+                next.style.borderStyle = 'groove'
+            }
+            this.off = function() {
+                next.style.backgroundColor = originalColor[0]
+                next.style.borderColor = originalColor[1]
+                next.style.borderStyle = originalColor[2]
+            }
+        }
+    }
+}
+
+class GerenciadorDeEventos {
+    constructor(nTab, letra, número, c1) {
+        let c3 = calculo_de_c3(letra, número, c1) 
+        if (c3) {
+            this.next = document.getElementById(`${nTab}${numberToLetter(c3.y)}${numberToLetter(c3.x, true)}`)
+        } else {this.next = c3}
+
+        this.listener = document.getElementById(`${nTab}${letra}${número}`)
+        this.eventos = new Eventos(this.listener, this.next)
+        this.adicionar = function () {
+            this.listener.addEventListener('mouseenter', this.eventos.on)
+            this.listener.addEventListener('mouseout', this.eventos.off)
+        }
+        this.remover = function () {
+            this.listener.removeEventListener('mouseenter', this.eventos.on)
+            this.listener.removeEventListener('mouseout', this.eventos.off)
+        }
+    }
+}
+
+class EventosOestreich {
+    constructor (listener, alcance) {
+        let originalColor = []
+        let originalListener = [listener.style.backgroundColor, listener.style.borderColor, listener.style.borderStyle]
+        for (let c in alcance) {
+            originalColor.push([alcance[c].style.backgroundColor, alcance[c].style.borderColor, alcance[c].style.borderStyle])
+        }
+        this.on = function() {
+            listener.style.backgroundColor = 'red'
+            listener.style.borderColor = '#19218f'
+            listener.style.borderStyle = 'groove'
+            for (let c in alcance) {
+                alcance[c].style.backgroundColor = '#ffc90e'
+                alcance[c].style.borderColor = '#19218f'
+                alcance[c].style.borderStyle = 'groove'
+            }
+        }
+        this.off = function () {
+            listener.style.backgroundColor = originalListener[0]
+            listener.style.borderColor = originalListener[1]
+            listener.style.borderStyle = originalListener[2]
+            for (let c in alcance) {
+                alcance[c].style.backgroundColor = originalColor[c][0]
+                alcance[c].style.borderColor = originalColor[c][1]
+                alcance[c].style.borderStyle = originalColor[c][2]
+            }
+        }
+    }
+}
+
+class Oestreich {
+    constructor (nTab, letra, número, tipo, xpar, ypar) {
+        this.self = document.getElementById(`${nTab}${letra}${número}`)
+        this.tipo = tipo
+        this.alcance = []
+        var inicio = 1
+        if (tipo == 'x') {
+            if (xpar) {inicio = 2}
+            for (var c=inicio; c<11; c+=2) {
+                if (c != c_turno[0].x) {
+                    this.alcance.push(document.getElementById(`${nTab}${letra}${numberToLetter(c, true)}`))
+                }
+            }
+        } else {
+            if (ypar) {inicio = 2}
+            for (var c=inicio; c<11; c+=2) {
+                if (c != c_turno[0].y) {
+                    this.alcance.push(document.getElementById(`${nTab}${numberToLetter(c)}${número}`))
+                }
+            }
+        }
+        let originalColor = []
+        for (let c in this.alcance) {
+            originalColor.push([
+                this.alcance[c].style.backgroundColor, 
+                this.alcance[c].style.borderColor, 
+                this.alcance[c].style.borderStyle
+            ])
+        }
+        this.eventos = new EventosOestreich(this.self, this.alcance)
+        this.acionar = function() {
+            this.self.addEventListener('mouseenter', this.eventos.on)
+            this.self.addEventListener('mouseout', this.eventos.off)
+        }
+        this.desativar = function() {
+            for (let c in this.alcance) {
+                this.alcance[c].style.backgroundColor = originalColor[c][0]
+                this.alcance[c].style.borderColor = originalColor[c][1]
+                this.alcance[c].style.borderStyle = originalColor[c][2]
+            }
+            this.self.removeEventListener('mouseenter', this.eventos.on)
+            this.self.removeEventListener('mouseout', this.eventos.off)
+        }
+    }
+}
+
+class EventosDeDisposiçãoDeEmbarcações {
+    constructor(listener, next) {
+        var listenerOriginalStyle = [
+            listener.style.backgroundColor, 
+            listener.style.borderColor, 
+            listener.style.borderStyle
+        ]
+        if (next) {
+            var nextOriginalStyle = []
+            for (let c in next) {
+                nextOriginalStyle.push([
+                    next[c].style.backgroundColor, 
+                    next[c].style.borderColor, 
+                    next[c].style.borderStyle
+                ])
+            }
+        }
+        this.on = function() {
+            listener.style.backgroundColor = 'green'
+            listener.style.borderColor = '#ffc90e'
+            listener.style.borderStyle = 'double'
+            if (next) {
+                for (let c in next) {
+                    next[c].style.backgroundColor = 'green'
+                    next[c].style.borderColor = '#ffc90e'
+                    next[c].style.borderStyle = 'double'
+                }
+            }
+        }
+        this.off = function() {
+            listener.style.backgroundColor = listenerOriginalStyle[0]
+            listener.style.borderColor = listenerOriginalStyle[1]
+            listener.style.borderStyle = listenerOriginalStyle[2]
+            if (next) {
+                for (let c in next) {
+                    next[c].style.backgroundColor = nextOriginalStyle[c][0]
+                    next[c].style.borderColor = nextOriginalStyle[c][1]
+                    next[c].style.borderStyle = nextOriginalStyle[c][2]
+                }
+            }
+        }
+    }
+}
+
+class OuvinteDeEventos {
+    constructor(nTab, array) {
+        this.self = document.getElementById(`${nTab}${numberToLetter(array[0].y)}${numberToLetter(array[0].x, true)}`)
+        this.coordenada = array[0]
+        this.direção = array
+        if (array.length > 1) {
+            this.others = []
+            for (let c=1; c<array.length; c++) {
+                this.others.push(
+                    document.getElementById(`${nTab}${numberToLetter(array[c].y)}${numberToLetter(array[c].x, true)}`)
+                )
+            }
+        } else {this.others = false}
+        this.eventos = new EventosDeDisposiçãoDeEmbarcações(this.self, this.others)
+        this.ativar = function() {
+            this.self.addEventListener('mouseenter', this.eventos.on)
+            this.self.addEventListener('mouseout', this.eventos.off)
+        }
+        this.desativar = function() {
+            this.self.removeEventListener('mouseenter', this.eventos.on)
+            this.self.removeEventListener('mouseout', this.eventos.off)
+        }
+    }
+}
+
+let jogador1 = new Player('Peronio', [
+    new Embarcação('Bote de Patrulha', 2, 'Canhão bote', 1, 'Reconhecimento', []),
+    new Embarcação('Submarino', 3, 'Torpedo', 3, 'Submersão', []),
+    new Embarcação('Destroyer', 3, 'Mísseis', 2, 'Antimísseis', []),
+    new Embarcação('Cruzador', 4, 'Canhão Cruzador', 4, 'Antiaéreo', []),
+    new Embarcação('Porta Avioes', 5, 'Battleshit', 3, 'Dálmata', [])
+])
+let jogador2 = new Player('Olga', [
+    new Embarcação('Bote de Patrulha', 2, 'Canhão bote', 1, 'Sabotagem', []),
+    new Embarcação('Submarino', 3, 'Torpedo', 3, 'Submersão', []),
+    new Embarcação('Destroyer', 3, 'Mísseis', 2, 'Antimísseis', []),
+    new Embarcação('Cruzador', 4, 'Canhão Cruzador', 4, 'Antiaéreo', []),
+    new Embarcação('Porta Avioes', 5, 'Oestreich', 5, 'Dálmata', [])
+])
+let seletor = document.getElementById('registro')
+let vez = [1, jogador1, jogador2] //Vetor que serve de contador para o revezamento dos jogadores
+let efetivo = 1                  //Variavel que serve de contador para as ações/turno de qualquer barco
+let rodada = 1                  //Variavel que armazena o número de rodadas 
+let index = 0                  //Variavel que serve de indice para a lista de barcos
+let c_turno = []              //Vetor responsavel por armazenar todas as coordenadas/turno de qualquer barco 
+let c_all = []               //Vetor responsavel por armazenar todas as coordenadas declaradas no jogo
+let zona = []               //Vetor responsavel por armazenar as coordenadas pertencentes ao raio de ação de algo
+let há_barcos = false      //Variavel simples que representa a presença ou não de barcos no tabuleiro
+let coordenada_possivel = [] //Vetor coletor de coordenadas que serão aceitas como segunda
+
 function evidenciar(ativador, textoAtivador) {    
     var reconhecimento = window.document.getElementById('reconhecimento')    
     var sabotagem = window.document.getElementById('sabotagem')
@@ -411,179 +657,6 @@ function dado(abilidade, embarcação='', número=0) {
     window.historico(exito)
 }
 
-class Embarcação {
-    constructor(nome, abilidadePrimaria, efetivos, abilidadeSecundaria) {
-        this.nome = nome
-        this.abilidadePrimaria = abilidadePrimaria
-        this.efetivos = efetivos
-        this.abilidadeSecundaria = abilidadeSecundaria
-    }
-}
-
-class Player {
-    constructor(nome, embarcações) {
-        this.nome = nome
-        this.embarcações = embarcações
-    }
-}
-
-class Coordenada {
-    constructor(y, x) {
-        this.y = y
-        this.x = x
-    }
-}
-
-class Eventos {
-    constructor(listener, next, invalidas=false) {
-        if (invalidas) {
-            let originalColor = [listener.style.backgroundColor, listener.style.borderColor, listener.style.borderStyle]
-            this.red = function() {
-                listener.style.backgroundColor = 'red'
-                listener.style.borderColor = '#19218f'
-                listener.style.borderStyle = 'groove'
-            }
-            this.origin = function() {
-                listener.style.backgroundColor = originalColor[0]
-                listener.style.borderColor = originalColor[1]
-                listener.style.borderStyle = originalColor[2]
-            }
-        }
-        if (next) {
-            let originalColor = [next.style.backgroundColor, next.style.borderColor, next.style.borderStyle]
-            this.on = function() {
-                next.style.backgroundColor = '#ffc90e'
-                next.style.borderColor = '#19218f'
-                next.style.borderStyle = 'groove'
-            }
-            this.off = function() {
-                next.style.backgroundColor = originalColor[0]
-                next.style.borderColor = originalColor[1]
-                next.style.borderStyle = originalColor[2]
-            }
-        }
-    }
-}
-
-class GerenciadorDeEventos {
-    constructor(nTab, letra, número) {
-        let c3 = calculo_de_c3(letra, número) 
-        if (c3) {
-            this.next = document.getElementById(`${nTab}${numberToLetter(c3.y)}${numberToLetter(c3.x, true)}`)
-        } else {this.next = c3}
-
-        this.listener = document.getElementById(`${nTab}${letra}${número}`)
-        this.eventos = new Eventos(this.listener, this.next)
-        this.adicionar = function () {
-            this.listener.addEventListener('mouseenter', this.eventos.on)
-            this.listener.addEventListener('mouseout', this.eventos.off)
-        }
-        this.remover = function () {
-            this.listener.removeEventListener('mouseenter', this.eventos.on)
-            this.listener.removeEventListener('mouseout', this.eventos.off)
-        }
-    }
-}
-
-class EventosOestreich {
-    constructor (listener, alcance) {
-        let originalColor = []
-        let originalListener = [listener.style.backgroundColor, listener.style.borderColor, listener.style.borderStyle]
-        for (let c in alcance) {
-            originalColor.push([alcance[c].style.backgroundColor, alcance[c].style.borderColor, alcance[c].style.borderStyle])
-        }
-        this.on = function() {
-            listener.style.backgroundColor = 'red'
-            listener.style.borderColor = '#19218f'
-            listener.style.borderStyle = 'groove'
-            for (let c in alcance) {
-                alcance[c].style.backgroundColor = '#ffc90e'
-                alcance[c].style.borderColor = '#19218f'
-                alcance[c].style.borderStyle = 'groove'
-            }
-        }
-        this.off = function () {
-            listener.style.backgroundColor = originalListener[0]
-            listener.style.borderColor = originalListener[1]
-            listener.style.borderStyle = originalListener[2]
-            for (let c in alcance) {
-                alcance[c].style.backgroundColor = originalColor[c][0]
-                alcance[c].style.borderColor = originalColor[c][1]
-                alcance[c].style.borderStyle = originalColor[c][2]
-            }
-        }
-    }
-}
-
-class Oestreich {
-    constructor (nTab, letra, número, tipo, xpar, ypar) {
-        this.self = document.getElementById(`${nTab}${letra}${número}`)
-        this.tipo = tipo
-        this.alcance = []
-        var inicio = 1
-        if (tipo == 'x') {
-            if (xpar) {inicio = 2}
-            for (var c=inicio; c<11; c+=2) {
-                if (c != c_turno[0].x) {
-                    this.alcance.push(document.getElementById(`${nTab}${letra}${numberToLetter(c, true)}`))
-                }
-            }
-        } else {
-            if (ypar) {inicio = 2}
-            for (var c=inicio; c<11; c+=2) {
-                if (c != c_turno[0].y) {
-                    this.alcance.push(document.getElementById(`${nTab}${numberToLetter(c)}${número}`))
-                }
-            }
-        }
-        let originalColor = []
-        for (let c in this.alcance) {
-            originalColor.push([
-                this.alcance[c].style.backgroundColor, 
-                this.alcance[c].style.borderColor, 
-                this.alcance[c].style.borderStyle
-            ])
-        }
-        this.eventos = new EventosOestreich(this.self, this.alcance)
-        this.acionar = function() {
-            this.self.addEventListener('mouseenter', this.eventos.on)
-            this.self.addEventListener('mouseout', this.eventos.off)
-        }
-        this.desativar = function() {
-            for (let c in this.alcance) {
-                this.alcance[c].style.backgroundColor = originalColor[c][0]
-                this.alcance[c].style.borderColor = originalColor[c][1]
-                this.alcance[c].style.borderStyle = originalColor[c][2]
-            }
-            this.self.removeEventListener('mouseenter', this.eventos.on)
-            this.self.removeEventListener('mouseout', this.eventos.off)
-        }
-    }
-}
-
-let jogador1 = new Player('Peronio', [
-    new Embarcação('Bote de Patrulha', 'Canhão bote', 1, 'Reconhecimento'),
-    new Embarcação('Submarino', 'Torpedo', 3, 'Submersão'),
-    new Embarcação('Destroyer', 'Mísseis', 2, 'Antimísseis'),
-    new Embarcação('Cruzador', 'Canhão Cruzador', 4, 'Antiaéreo'),
-    new Embarcação('Porta Avioes', 'Battleshit', 3, 'Dálmata')
-])
-let jogador2 = new Player('Olga', [
-    new Embarcação('Bote de Patrulha', 'Canhão bote', 1, 'Sabotagem'),
-    new Embarcação('Submarino', 'Torpedo', 3, 'Submersão'),
-    new Embarcação('Destroyer', 'Mísseis', 2, 'Antimísseis'),
-    new Embarcação('Cruzador', 'Canhão Cruzador', 4, 'Antiaéreo'),
-    new Embarcação('Porta Avioes', 'Oestreich', 5, 'Dálmata')
-])
-let seletor = document.getElementById('registro')
-let vez = [1, jogador1, jogador2] //Vetor que serve de contador para o revezamento dos jogadores
-let efetivo = 1                  //Variavel que serve de contador para as ações/turno de qualquer barco
-let rodada = 1                  //Variavel que armazena o número de rodadas 
-let index = 0                  //Variavel que serve de indice para a lista de barcos
-let c_turno = []              //Vetor responsavel por armazenar todas as coordenadas/turno de qualquer barco 
-let c_all = []               //Vetor responsavel por armazenar todas as coordenadas declaradas no jogo
-let zona = []
-
 function adjacente(x1, y1, x2, y2, alcance) {
     if (x2 > x1-alcance && x2 < x1+alcance && y2 > y1-alcance && y2 < y1+alcance) {return true} else {return false}
 }
@@ -714,12 +787,11 @@ function validação(nTab, letra, número) {
     
     //Este teste vailda a jogada relacionando o jogador da vez com seu respectivo tabuleiro
     if (nTab == vez[0]) {
-        c_turno.push(new Coordenada(y, x)); console.log(c_turno)
+        c_turno.push(new Coordenada(y, x))
 
         //Este swicth é para validar o uso do submarino
         switch (index) {
             case 1:
-                console.log(`Validação da jogada do submarino nas coordenadas(${x}, ${y})`)
                 if (efetivo == 1) {
                     //Gerando a zona de ação do torpedo baseado na primeira coordenada
                     var zonaFantasma = [[-1, -1],[-1, 0],[-1, +1],[0, +1],[+1, +1],[+1, 0],[+1, -1],[0, -1]]
@@ -730,7 +802,8 @@ function validação(nTab, letra, número) {
                                    new GerenciadorDeEventos(
                                        nTab, 
                                        numberToLetter(y + zonaFantasma[c][0]), 
-                                       numberToLetter(x + zonaFantasma[c][1], true)
+                                       numberToLetter(x + zonaFantasma[c][1], true),
+                                       c_turno[0]
                                     )
                                 ) 
                             }
@@ -754,10 +827,8 @@ function validação(nTab, letra, número) {
                     } else {c_turno.pop(); return false}
                 } break
             case 2:
-                console.log(`Validação da jogada do destroyer nas coodenadas(${x}, ${y})`)
                 break
             case 3:
-                console.log(`Validação da jogada do cruzador nas coordenadas(${x}, ${y})`)
                 if (efetivo == 2) {
                     //Testeando a proximidade da coordenada 2 para 1
                     if (adjacente(c_turno[0].x, c_turno[0].y, c_turno[1].x, c_turno[1].y, 2)) {return true}
@@ -781,7 +852,6 @@ function validação(nTab, letra, número) {
                 }
                 break
             case 4:
-                console.log(`Validação da jogada do porta aviões nas coordenadas(${x}, ${y})`)
                 if (vez[vez[0]].embarcações[index].abilidadePrimaria == 'Battleshit') {
                     if (efetivo == 2) {
                         if (adjacente(c_turno[0].x, c_turno[0].y, c_turno[1].x, c_turno[1].y, 3)) {return true}
@@ -855,6 +925,7 @@ function validação(nTab, letra, número) {
                         else {//Quarta segunda. Validada o sentido em que seguirá a ação, excluindo as diagonais
                             if (c_turno[0].x == c_turno[1].x || c_turno[0].y == c_turno[1].y) {
                                 for (var c in zona) {zona[c].desativar()}//Desativação dos eventos
+                                zona = []
                                 var next = calculo_de_oestreich(c_turno[0], c_turno[1])
                                 
                                 return [nTab, numberToLetter(next.y), numberToLetter(next.x, true)]
@@ -876,104 +947,216 @@ function validação(nTab, letra, número) {
     } else {return false}
 }
 
-if (window.document.title == 'Jogos') {
-    window.document.getElementById('nomejogador').innerText = `${jogador1.nome} - ${jogador2.embarcações[index].nome}`
-    seletor.appendChild(registros('destaque', `${vez[vez[0]].nome} - ${vez[vez[0]].embarcações[index].nome}`))
+function print(txt, out=false) {
+    if (out) {document.getElementById(txt).style.backgroundColor = 'red'} else {console.log(txt)}
 }
-function historico(par1, letra, número) {
-    quindi = validação(par1, letra, número)
-    console.log(`Quindi(${quindi})`)
-    if (par1.length == 1 && quindi) {
-        
-        //O primero resultado da função é a marcação do tabuleiro
-        let coordenada = window.document.getElementById(`${par1}${letra}${número}`)
-        coordenada.style.backgroundColor = '#19218f'
-        coordenada.style.borderColor = '#ffc90e'
-        coordenada.style.borderStyle = 'double'
-        coordenada.removeAttribute('onclick')
 
-        //O segundo resultado da função é o registro da jogada na div.caixa-de-registro
-        seletor.appendChild(registros('normal', `${vez[vez[0]].embarcações[index].abilidadePrimaria}: ${letra.toUpperCase()}▬${número}`))
-        
-        //Este algoririto é responsavel por passar a vez, trocando os barcos, e revesando os jogadores
-        if (vez[0] == 1) {    
-            if (efetivo == jogador1.embarcações[index].efetivos) {
-                vez[0] = 2
-                window.document.getElementById('nomejogador').innerText = `${jogador2.nome} - ${jogador2.embarcações[index].nome}`
-                seletor.appendChild(registros('destaque', `${jogador2.nome} - ${jogador2.embarcações[index].nome}`))
-                efetivo = 1
-                c_turno = []
-            } else {efetivo++}     
-        } else {
-            if (efetivo == jogador2.embarcações[index].efetivos) {
-                vez[0] = 1
-                if (index == 4) {
-                    index = 0; rodada++ 
-                    seletor.appendChild(registros('titulo', `${rodada}ª Rodada`))
-                } else {index++}
-                window.document.getElementById('nomejogador').innerText = `${jogador1.nome} - ${jogador1.embarcações[index].nome}`
-                seletor.appendChild(registros('destaque', `${jogador1.nome} - ${jogador1.embarcações[index].nome}`))
-                efetivo = 1
-                c_turno = []
-            } else {efetivo++}
+function teste_de_colisão(y, x) {
+    //Função especifica para notar se a possivel coordenada já esta relacionada à uma embarcação
+    for (var c=0; c<vez[vez[0]].embarcações.length; c++) {
+        for (var v=0; v<vez[vez[0]].embarcações[c].disposição.length; v++) {
+            var X_teste = vez[vez[0]].embarcações[c].disposição[v].x
+            var Y_teste = vez[vez[0]].embarcações[c].disposição[v].y
+            if (x == X_teste && y == Y_teste) {return true}
+        }    
+    }
+} 
+
+function disposiçãoDasEmbarcações(nTab, letra, número) {
+    determinar_direções = function() {//key[0] = -Y     key[1] = +X     key[2] = +Y   key[3] = -X
+        let direções = []; let norte = []; let leste = []; let sul = []; let oeste = []
+        for (var c=1; c<11; c++) {
+            //Se estiver entre o X e o X - alcance, e não houver embarcações: C = X negativo
+            if (c > x-alcance && c < x) {if (!teste_de_colisão(y, c)) {oeste.unshift(new Coordenada(y, c))}}
+            
+            //Se estiver entre o X e o X+alcance, e não houver embarcações: C = X positivo 
+            else if (c < x+alcance && c > x) {if (!teste_de_colisão(y, c)) {leste.push(new Coordenada(y, c))}}
+            
+            //Se estiver entre o Y e o Y-alcance, e não houver embarcações: C = Y negativo
+            if (c > y-alcance && c < y) {if (!teste_de_colisão(c, x)) {norte.unshift(new Coordenada(c, x))}}
+            
+            //Se estiver entre o Y e o Y+alcance, e não houver embarcações: C = Y positivo
+            else if (c < y+alcance && c > y) {if (!teste_de_colisão(c, x)) {sul.push(new Coordenada(c, x))}}
         }
-        if (quindi.length > 1) {window.historico(quindi[0], quindi[1], quindi[2])}
-        
-    } else if (!quindi) {
-        if (par1 != vez[0]) {
-            if (vez[0] == 1) {seletor.appendChild(registros('erro', `Não é sua vez ${jogador2.nome}`))}
-            else {seletor.appendChild(registros('erro', `Não é sua vez ${jogador1.nome}`))}
-        } else {seletor.appendChild(registros('erro', `Coordenada invalida`))}
-    } else {
-        let exito = par1
+        //Os vetores contendo as coordenadas apenas serão adicionados à direções, se forem compativeis com o alcance
+        if (norte.length == alcance-1) {direções.push(norte)}; if (leste.length == alcance-1) {direções.push(leste)}
+        if (sul.length == alcance-1) {direções.push(sul)}; if (oeste.length == alcance-1) {direções.push(oeste)}
 
-        seletor.innerHTML += `<option class="extenso">${exito[0][0].toUpperCase()}${exito[0].slice(1)} - ${exito[1]}</option>`    
-       
-        // Este if retorna o registro do reconhecimento
-        if (exito[0] == 'reconhecimento') {
-            if (!exito[2]) {
-                seletor.innerHTML += `<option class="extenso">Nenhuma embarcação encontrada</option>` 
-            } else {
-                seletor.innerHTML += `<option class="extenso">Embarcações:</option>`
-                for (let c=0; c < exito[3].length; c++) {
-                    seletor.innerHTML += `<option class="extenso">${exito[3][c]}</option>`
+        return direções
+    }
+    completar_direções = function(direção) {
+        if (vez[vez[0]].embarcações[index].comprimento > 2) {
+            for (let c=1; c<direção.length; c++) {
+                vez[vez[0]].embarcações[index].disposição.push(direção[c])
+                
+                coordenada.style.backgroundColor = 'green'
+                coordenada.style.borderColor = '#ffc90e'
+                coordenada.style.borderStyle = 'double'
+            }
+        }
+    }
+    //Coleta de informações para calculos internos
+    let x = parseInt(número); let y = letterToNumber(letra); let alcance = vez[vez[0]].embarcações[index].comprimento
+    let coordenada = window.document.getElementById(`${nTab}${letra}${número}`)
+
+    if (!vez[vez[0]].embarcações[index].disposição.length) {//Se for a primeira coordenada
+        let direções_possiveis = determinar_direções()
+        for (let v in direções_possiveis) {
+            coordenada_possivel.push(new OuvinteDeEventos(nTab, direções_possiveis[v]))
+            coordenada_possivel[v].ativar()
+        }
+
+        vez[vez[0]].embarcações[index].disposição.push(new Coordenada(letterToNumber(letra), parseInt(número)))
+        return true
+    } else if (//Se eu clicar novamente na primeira coordenada
+        vez[vez[0]].embarcações[index].disposição.length == 1 &&
+        vez[vez[0]].embarcações[index].disposição[0].x == x &&
+        vez[vez[0]].embarcações[index].disposição[0].y == y
+        ) {
+            vez[vez[0]].embarcações[index].disposição.pop()
+            coordenada.removeAttribute('style')
+
+            for (let v in coordenada_possivel) {
+                coordenada_possivel[v].desativar()
+            }
+
+            coordenada_possivel = []
+            return false
+    } else {//Se não...
+        for (let c in coordenada_possivel) {
+            if (x == coordenada_possivel[c].coordenada.x && y == coordenada_possivel[c].coordenada.y) {
+                for (let v in coordenada_possivel) {
+                    coordenada_possivel[v].desativar()
                 }
-            }  
+
+                vez[vez[0]].embarcações[index].disposição.push(new Coordenada(letterToNumber(letra), parseInt(número)))
+                completar_direções(coordenada_possivel[c].direção)
+                coordenada_possivel = []
+                return true
+            }
         }
+    }  
+}
 
-        // Este if retorna o registro da sabotagem
-        if (exito[0] == 'sabotagem') {seletor.innerHTML += `<option class="extenso">${exito[3]}</option>`}
+function historico(par1, letra, número) {
+    let coordenada = window.document.getElementById(`${par1}${letra}${número}`)
+    if (!há_barcos && vez[0] == par1) {
+        if (disposiçãoDasEmbarcações(par1, letra, número)) {
+            
+            coordenada.style.backgroundColor = 'green'
+            coordenada.style.borderColor = '#ffc90e'
+            coordenada.style.borderStyle = 'double'
 
-        // Este if retorna o registro da submersão
-        if (exito[0] == 'submersão') {
-            if (exito[2]) {seletor.innerHTML += `<option class="extenso">Submersão bem sucedida</option>`}
-            else {seletor.innerHTML += `<option class="extenso">Submarino atingido</option>`}
+            if (vez[vez[0]].embarcações[index].disposição.length == vez[vez[0]].embarcações[index].comprimento) {
+                //Registro da ação na div.caixa-de-registro
+                seletor.appendChild(registros('confirmação', `${vez[vez[0]].nome} adicionou`))
+                seletor.appendChild(registros('confirmação', `${vez[vez[0]].embarcações[index].nome}`))
+                seletor.appendChild(registros('normal', ``))
+                index++
+            }
+            if (index == 5) {
+                index = 0; if (vez[0] == 2) {
+                    vez[0] = 1; há_barcos = true
+                    seletor.appendChild(registros('titulo', `1ª Rodada`))
+                } else {
+                    vez[0] = 2
+                    seletor.appendChild(registros('titulo', `${vez[vez[0]].nome}`))
+                }
+            }
         }
+    } 
+    else {
+        quindi = validação(par1, letra, número)
+        if (par1.length == 1 && quindi) {
+            coordenada.style.backgroundColor = '#19218f'
+            coordenada.style.borderColor = '#ffc90e'
+            coordenada.style.borderStyle = 'double'
+            coordenada.removeAttribute('onclick')
 
-        // Este if retorna o registro do antimísseis
-        if (exito[0] == 'antimísseis') {
-            if (exito[2]) {seletor.innerHTML += `<option class="extenso">Míssil neutralizado</option>`}
-            else {seletor.innerHTML += `<option class="extenso">Míssil atingiu seu alvo</option>`}
-        }
+            //Registro da ação na div.caixa-de-registro
+            seletor.appendChild(registros('normal', `${vez[vez[0]].embarcações[index].abilidadePrimaria}: ${letra.toUpperCase()}▬${número}`))
+            
+            //Esta função é responsavel por passar a vez, trocando os barcos, e revesando os jogadores
+            if (vez[0] == 1) {    
+                if (efetivo == jogador1.embarcações[index].efetivos) {
+                    vez[0] = 2
+                    window.document.getElementById('nomejogador').innerText = `${jogador2.nome} - ${jogador2.embarcações[index].nome}`
+                    seletor.appendChild(registros('destaque', `${jogador2.nome} - ${jogador2.embarcações[index].nome}`))
+                    efetivo = 1
+                    c_turno = []
+                } else {efetivo++}     
+            } else {
+                if (efetivo == jogador2.embarcações[index].efetivos) {
+                    vez[0] = 1
+                    if (index == 4) {
+                        index = 0; rodada++ 
+                        seletor.appendChild(registros('titulo', `${rodada}ª Rodada`))
+                    } else {index++}
+                    window.document.getElementById('nomejogador').innerText = `${jogador1.nome} - ${jogador1.embarcações[index].nome}`
+                    seletor.appendChild(registros('destaque', `${jogador1.nome} - ${jogador1.embarcações[index].nome}`))
+                    efetivo = 1
+                    c_turno = []
+                } else {efetivo++}
+            }
 
-        // Este if retorna o registro do antiaéreo
-        if (exito[0] == 'antiaéreo') {
-            if (exito[2]) {seletor.innerHTML += `<option class="extenso">Ataque neutralizado</option>`}
-            else {seletor.innerHTML += `<option class="extenso">Ataque realizado</option>`}
-            seletor.innerHTML += `<option class="extenso">${exito[3]}</option>`
-        }
+            if (quindi.length > 1) {window.historico(quindi[0], quindi[1], quindi[2])}
+            
+        } else if (!quindi) {
+            if (par1 != vez[0]) {
+                if (vez[0] == 1) {seletor.appendChild(registros('erro', `Não é sua vez ${jogador2.nome}`))}
+                else {seletor.appendChild(registros('erro', `Não é sua vez ${jogador1.nome}`))}
+            } else {seletor.appendChild(registros('erro', `Coordenada invalida`))}
+        } else {
+            let exito = par1
 
-        // Este if retorna o registro do dálmata
-        if (exito[0] == 'dálmata') {
-            if (exito[4] == 'Contra Caça-torpedeiro') {
+            seletor.innerHTML += `<option class="extenso">${exito[0][0].toUpperCase()}${exito[0].slice(1)} - ${exito[1]}</option>`    
+        
+            // Este if retorna o registro do reconhecimento
+            if (exito[0] == 'reconhecimento') {
+                if (!exito[2]) {
+                    seletor.innerHTML += `<option class="extenso">Nenhuma embarcação encontrada</option>` 
+                } else {
+                    seletor.innerHTML += `<option class="extenso">Embarcações:</option>`
+                    for (let c=0; c < exito[3].length; c++) {
+                        seletor.innerHTML += `<option class="extenso">${exito[3][c]}</option>`
+                    }
+                }  
+            }
+
+            // Este if retorna o registro da sabotagem
+            if (exito[0] == 'sabotagem') {seletor.innerHTML += `<option class="extenso">${exito[3]}</option>`}
+
+            // Este if retorna o registro da submersão
+            if (exito[0] == 'submersão') {
+                if (exito[2]) {seletor.innerHTML += `<option class="extenso">Submersão bem sucedida</option>`}
+                else {seletor.innerHTML += `<option class="extenso">Submarino atingido</option>`}
+            }
+
+            // Este if retorna o registro do antimísseis
+            if (exito[0] == 'antimísseis') {
+                if (exito[2]) {seletor.innerHTML += `<option class="extenso">Míssil neutralizado</option>`}
+                else {seletor.innerHTML += `<option class="extenso">Míssil atingiu seu alvo</option>`}
+            }
+
+            // Este if retorna o registro do antiaéreo
+            if (exito[0] == 'antiaéreo') {
                 if (exito[2]) {seletor.innerHTML += `<option class="extenso">Ataque neutralizado</option>`}
-                else {seletor.innerHTML += `<option class="extenso">Ataque inimigo realizado</option>`}
+                else {seletor.innerHTML += `<option class="extenso">Ataque realizado</option>`}
                 seletor.innerHTML += `<option class="extenso">${exito[3]}</option>`
             }
-            else {
-                seletor.innerHTML += `<option class="extenso">${exito[3]}</option>`
-                for (let c=0; c < exito[2].length; c++) {
-                    if (!exito[2][c]) {seletor.innerHTML += `<option class="extenso">${c+1}º Bomba lançada</option>`}
+
+            // Este if retorna o registro do dálmata
+            if (exito[0] == 'dálmata') {
+                if (exito[4] == 'Contra Caça-torpedeiro') {
+                    if (exito[2]) {seletor.innerHTML += `<option class="extenso">Ataque neutralizado</option>`}
+                    else {seletor.innerHTML += `<option class="extenso">Ataque inimigo realizado</option>`}
+                    seletor.innerHTML += `<option class="extenso">${exito[3]}</option>`
+                }
+                else {
+                    seletor.innerHTML += `<option class="extenso">${exito[3]}</option>`
+                    for (let c=0; c < exito[2].length; c++) {
+                        if (!exito[2][c]) {seletor.innerHTML += `<option class="extenso">${c+1}º Bomba lançada</option>`}
+                    }
                 }
             }
         }

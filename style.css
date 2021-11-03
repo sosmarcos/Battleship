@@ -345,7 +345,12 @@ li.escolha02:hover {
     font: bold 1.3em 'Georgia';
 }
 
-#registro option.normal, option.extenso{
+#registro option.normal, option.extenso {
+    color: white;
+}
+
+#registro option.confirmação {
+    background-color: #00800099;
     color: white;
 }
 
@@ -361,7 +366,7 @@ li.escolha02:hover {
 
 #registro > option.erro {
     color: white;
-    background-color: rgba(255, 0, 0, 0.637);
+    background-color: rgba(255, 0, 0, 0.600);
 }
 
 article {
